@@ -1,5 +1,8 @@
 import jwtDecode from 'jwt-decode';
 
+export const persistSession = (token) => localStorage.setItem('authentication-token-user',JSON.stringify(token));
+
+
 export const deleteSession = () => localStorage.removeItem('authentication-token-user');
 
 export const getSession = () =>localStorage.getItem('authentication-token-user');

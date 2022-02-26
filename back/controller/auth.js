@@ -106,7 +106,7 @@ exports.signin = async (req,res)=>{
         bcrypt.compare(password,user.u_password,(err,result)=>{
                             if(err || !result)
                             {
-                               return res.json({success:false,status:403,error:err,messege:["Password don't match"]})
+                               return res.json({success:false,status:403,error:"Password don't match",messege:["Password don't match"]})
                             }
             
                             const token = jwt.sign({name:user.u_name},process.env.SECRET)

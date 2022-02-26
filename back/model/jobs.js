@@ -19,11 +19,11 @@ const Jobs = sequlize.define("Jobs",{
    },
    employer_no:{
     type:INTEGER,
-    allowNull:false,
-    references:{
-        model:'Employer',
-        key:'_id'
-    }
+    // allowNull:false,
+    // references:{
+    //     model:'Employer',
+    //     key:'_id'
+    // }
    },
    employee_id:{
        type:INTEGER

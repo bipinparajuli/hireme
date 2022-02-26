@@ -5,11 +5,10 @@ const MainComponent = ({children}) => {
   return (
     <>
     <Navbar />
-    <div>
       {children}
-    </div>
     <Footer />
     </>
+
   )
 }
 

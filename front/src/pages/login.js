@@ -1,10 +1,53 @@
 import React from "react";
+import {Link,Navigate} from 'react-router-dom'
+import * as Yup from 'yup'
+import { Formik, Form,ErrorMessage } from "formik";
 
-export default function Login() {
+// For redux
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import * as Actions from "./../redux/Login/Actions";
+
+
+import Error from "../components/Error";
+import Success from "../components/Success";
+
+
+const LoginValidationSchema = Yup.object().shape({
+  u_email: Yup.string().required("Please enter username or email"),
+  password: Yup.string().required("Please enter a password").min(8).max(255),
+});
+
+
+ function Login(props) {
+
+  console.log(props);
+
+  const {isFetching,hasError,hasSuccess,errorMessage} = props
+
+  function handleFormSubmit(values){
+    console.log(values);
+    props.handleLoginRequestAction(values);
+
+  }
+  if(hasSuccess){
+    return (
+      <Navigate to="/" />
+    )
+  }
+
+  if(hasError){
+    setTimeout(()=>{
+      props.resetStateHandler()
+    },1000)
+  }
+
+  console.log(isFetching);
+
   return (
     <>
       <main>
-        <section className="absolute w-full h-full">
+        <section className="absolute w-full h-full ">
           <div
             className="absolute top-0 w-full h-full bg-gray-900"
             style={{
@@ -18,7 +61,7 @@ export default function Login() {
             <div className="flex content-center items-center justify-center h-full">
               <div className="w-full lg:w-4/12 px-4">
                 <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-300 border-0">
-                  <div className="rounded-t mb-0 px-6 py-6">
+                  {/* <div className="rounded-t mb-0 px-6 py-6">
                     <div className="text-center mb-3">
                       <h6 className="text-gray-600 text-sm font-bold">
                         Sign in with
@@ -51,12 +94,32 @@ export default function Login() {
                       </button>
                     </div>
                     <hr className="mt-6 border-b-1 border-gray-400" />
-                  </div>
+                  </div> */}
                   <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
                     <div className="text-gray-500 text-center mb-3 font-bold">
-                      <small>Or sign in with credentials</small>
+                      <strong>Sign in</strong>
                     </div>
-                    <form>
+                    <Formik
+            enableReinitialize
+            initialValues={{
+              u_email: "",
+              u_role:"",
+              password: "",
+            }}
+            onSubmit={handleFormSubmit}
+            validationSchema={LoginValidationSchema}
+          >
+            {(renderProps) => {
+              const { values: formValues, touched, errors } = renderProps;
+              return (
+                <>
+                  <Form>
+                    {
+                      hasError && (
+                        <Error message={errorMessage} />
+
+                      )
+                    }
                       <div className="relative w-full mb-3">
                         <label
                           className="block uppercase text-gray-700 text-xs font-bold mb-2"
@@ -69,7 +132,12 @@ export default function Login() {
                           className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                           placeholder="Email"
                           style={{ transition: "all .15s ease" }}
+                          value={formValues.u_email}
+                          onChange={(e) =>
+                            renderProps.setFieldValue("u_email", e.target.value)
+                          }
                         />
+                      <ErrorMessage name="u_email" render={msg => <div style={{color:"red"}}>{msg}</div>} />
                       </div>
 
                       <div className="relative w-full mb-3">
@@ -84,54 +152,83 @@ export default function Login() {
                           className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                           placeholder="Password"
                           style={{ transition: "all .15s ease" }}
+                          value={formValues.password}
+                          onChange={(e) =>
+                            renderProps.setFieldValue("password", e.target.value)
+                          }
                         />
-                      </div>
-                      <div>
-                        <label className="inline-flex items-center cursor-pointer">
-                          <input
-                            id="customCheckLogin"
-                            type="checkbox"
-                            className="form-checkbox border-0 rounded text-gray-800 ml-1 w-5 h-5"
-                            style={{ transition: "all .15s ease" }}
-                          />
-                          <span className="ml-2 text-sm font-semibold text-gray-700">
-                            Remember me
-                          </span>
-                        </label>
-                      </div>
+                      <ErrorMessage name="password" render={msg => <div style={{color:"red"}}>{msg}</div>} />
 
+                      </div>
+                      <div className="flex justify-center">
+                        <div className="form-check form-check-inline">
+                          <input 
+                          className="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                           type="radio"
+                          name="inlineRadioOptions"
+                          id="inlineRadio1"
+                           value="Employer"
+                           onChange={(e) =>
+                            renderProps.setFieldValue("u_role", e.target.value)
+                          }
+
+                            />
+                          <label className="form-check-label inline-block text-gray-800" htmlFor="inlineRadio10">Employer</label>
+                        </div>
+                        <div className="form-check form-check-inline">
+                          <input
+                           className="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                           type="radio" 
+                           name="inlineRadioOptions" 
+                           id="inlineRadio2" 
+                           value="Employee"
+                           onChange={(e) =>
+                            renderProps.setFieldValue("u_role", e.target.value)
+                          }
+                           
+                           />
+                          <label className="form-check-label inline-block text-gray-800" htmlFor="inlineRadio20">Employee</label>
+                        </div>
+                      </div>
                       <div className="text-center mt-6">
                         <button
                           className="bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full"
-                          type="button"
+                          type="submit"
                           style={{ transition: "all .15s ease" }}
                         >
-                          Sign In
+                         {isFetching? "Signing . . ." : "Sign in" }
                         </button>
                       </div>
-                    </form>
-                  </div>
-                </div>
-                <div className="flex flex-wrap mt-6">
+                      </Form>
+                </>
+              );
+            }}
+          </Formik>
+          <div className="flex flex-wrap mt-6">
                   <div className="w-1/2">
-                    <a
-                      href="#pablo"
-                      onClick={e => e.preventDefault()}
+                    <Link
+                      to="/resetpassword"
+                      // onClick={e => e.preventDefault()}
                       className="text-gray-300"
                     >
-                      <small>Forgot password?</small>
-                    </a>
+                      <small style={{color:"red"}} >Forgot password?</small>
+                    </Link>
                   </div>
                   <div className="w-1/2 text-right">
-                    <a
-                      href="#pablo"
-                      onClick={e => e.preventDefault()}
+                    <Link
+                      to="/register"
+                      // onClick={e => e.preventDefault()}
                       className="text-gray-300"
                     >
-                      <small>Create new account</small>
-                    </a>
+                      <small  style={{color:"red"}}>Create new account</small>
+                    </Link>
                   </div>
                 </div>
+        
+                  </div>
+                 
+                </div>
+                
               </div>
             </div>
           </div>
@@ -140,3 +237,16 @@ export default function Login() {
     </>
   );
 }
+
+
+const mapStateToProps = (state) => ({
+  ...state.Login,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    ...bindActionCreators({ ...Actions }, dispatch),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

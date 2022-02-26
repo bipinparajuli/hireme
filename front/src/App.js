@@ -5,6 +5,13 @@ import Login from './pages/login'
 import './styles/output.css'
 import MainCompoment from './components/Maincomponent/MainComponent'
 import JobListing from './pages/JobListing';
+import Register from './pages/Register'
+import Employee from './routes/Employee';
+import Employer from './routes/Employer';
+import PostJob from './pages/PostJob';
+import Jobs from './pages/Jobs';
+import ResetPassword from './pages/ResetPassword';
+
 
 function App() {
   return (
@@ -12,6 +19,36 @@ function App() {
     <Routes>
       <Route path="/" element={<JobListing />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/resetpassword" element={<ResetPassword />} />
+
+      <Route
+          path="/postjob"
+          element={
+            <Employer>
+              <PostJob />
+            </Employer>
+          }
+        />
+        <Route
+          path="/projects"
+          element={
+            <Employer>
+              <Jobs />
+            </Employer>
+          }
+        />
+
+        <Route
+          path="/applyjob"
+          element={
+            <Employee>
+              <Jobs />
+            </Employee>
+          }
+        />
+      <Route path="/register" element={<Register />} />
+
+
     </Routes>
     </MainCompoment>
 

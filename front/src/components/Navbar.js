@@ -1,8 +1,17 @@
 import React, { useState } from "react";
 import { Transition } from "@headlessui/react";
+import {Link, Navigate} from 'react-router-dom'
+import { deleteSession, hasToken } from "../helpers/Session";
 
-function Nav() {
+// For redux
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import * as Actions from "./../redux/Login/Actions";
+
+function Nav(props) {
   const [isOpen, setIsOpen] = useState(false);
+  const { isAuthenticated, logoutHandler} = props
+
   return (
     <div>
       <nav className="bg-gray-800">
@@ -18,33 +27,44 @@ function Nav() {
               </div>
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
-                  <a
-                    href="#"
+                  <Link
+                    to="/"
                     className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
                     HIREME
-                  </a>
+                  </Link>
 
-                  <a
-                    href="#"
+                  <Link
+                    to="/projects"
                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Projects
-                  </a>
+                  </Link>
 
-                  <a
-                    href="#"
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                    Login
-                  </a>
-
-                  <a
-                    href="#"
+                  <Link
+                    to="/postjob"
                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Post Job
-                  </a>
+                  </Link>
+
+                 { isAuthenticated? 
+                  <Link
+                  to="/"
+                  onClick={logoutHandler}
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Logout
+                </Link> 
+                  :
+                  <Link
+                    to="/login"
+                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Login
+                  </Link>
+                 }
+                  
                 </div>
               </div>
             </div>
@@ -107,34 +127,46 @@ function Nav() {
           {(ref) => (
             <div className="md:hidden" id="mobile-menu">
               <div ref={ref} className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a
-                  href="#"
+                <Link
+                  to="/"
                   className="hover:bg-gray-700 text-white block px-3 py-2 rounded-md text-base font-medium"
                 >
                   HIRE ME
-                </a>
+                </Link>
 
 
-                <a
-                  href="#"
+                <Link
+                  to="/projects"
                   className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                 >
                   Projects
-                </a>
+                </Link>
 
-                <a
-                  href="#"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                >
-                  Login
-                </a>
-
-                <a
-                  href="#"
+                <Link
+                  to="/postjob"
                   className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                 >
                   Post Job
-                </a>
+                </Link>
+
+                { isAuthenticated? 
+                  <Link
+                
+                  to="/"
+                  onClick={logoutHandler}
+
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Logout
+                </Link> 
+                  :
+                  <Link
+                    to="/login"
+                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Login
+                  </Link>
+                 }
               </div>
             </div>
           )}
@@ -144,4 +176,14 @@ function Nav() {
   );
 }
 
-export default Nav;
+const mapStateToProps = (state) => ({
+  ...state.Login,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    ...bindActionCreators({ ...Actions }, dispatch),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Nav);
