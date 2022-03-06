@@ -6,7 +6,9 @@ import {
     JOBS_REQUEST,
     DELETEJOBS_FAILURE,
     DELETEJOBS_SUCCESS,
-    RESET_JOBS_PARAMS
+    RESET_JOBS_PARAMS,
+    POSTJOB_SUCCESS,
+    POSTJOB_FAILURE
   } from './Constants';
   
   const initialState = {
@@ -42,6 +44,26 @@ import {
 
 
         };
+        case POSTJOB_SUCCESS:  
+        return {
+          ...state,
+          errorMessage: '',
+          isFetching: false,
+          hasSuccess:true,
+          hasError: false,
+
+
+        };
+      case POSTJOB_FAILURE:
+        return {
+          ...state,
+          hasError: true,
+          ...action.data,
+          isFetching: false,
+          hasSuccess:false,
+
+
+        };
         case JOBBYID_SUCCESS:  
         return {
           ...state,
@@ -53,7 +75,7 @@ import {
       case JOBBYID_FAILURE:
         return {
           ...state,
-          hasError: true,
+          // hasError: true,
           ...action.data,
           isFetching: false,
 

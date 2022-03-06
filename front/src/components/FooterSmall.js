@@ -1,16 +1,16 @@
 import React from "react"
 
 const FooterSmall = () =>(
-  <footer class="text-center text-white fixed bottom-0 w-full" style={{backgroundColor: "#f1f1f1"}}>
-  <div class="container pt-4">
-    <div class="flex justify-center mb-6">
-      <a href="#!" class="mr-9 text-gray-800">
+  <footer className="text-center text-white bottom-0 w-full" style={{backgroundColor: "#f1f1f1"}}>
+  <div className="container pt-4">
+    <div className="flex justify-center mb-6">
+      <a href="#!" className="mr-9 text-gray-800">
         <svg
           aria-hidden="true"
           focusable="false"
           data-prefix="fab"
           data-icon="facebook-f"
-          class="svg-inline--fa fa-facebook-f w-2.5"
+          className="svg-inline--fa fa-facebook-f w-2.5"
           role="img"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 320 512"
@@ -21,13 +21,13 @@ const FooterSmall = () =>(
           ></path>
         </svg>
       </a>
-      <a href="#!" class="mr-9 text-gray-800">
+      <a href="#!" className="mr-9 text-gray-800">
         <svg
           aria-hidden="true"
           focusable="false"
           data-prefix="fab"
           data-icon="twitter"
-          class="svg-inline--fa fa-twitter w-4"
+          className="svg-inline--fa fa-twitter w-4"
           role="img"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 512 512"
@@ -38,13 +38,13 @@ const FooterSmall = () =>(
           ></path>
         </svg>
       </a>
-      <a href="#!" class="mr-9 text-gray-800">
+      <a href="#!" className="mr-9 text-gray-800">
         <svg
           aria-hidden="true"
           focusable="false"
           data-prefix="fab"
           data-icon="google"
-          class="svg-inline--fa fa-google w-3.5"
+          className="svg-inline--fa fa-google w-3.5"
           role="img"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 488 512"
@@ -55,13 +55,13 @@ const FooterSmall = () =>(
           ></path>
         </svg>
       </a>
-      <a href="#!" class="mr-9 text-gray-800">
+      <a href="#!" className="mr-9 text-gray-800">
         <svg
           aria-hidden="true"
           focusable="false"
           data-prefix="fab"
           data-icon="instagram"
-          class="svg-inline--fa fa-instagram w-3.5"
+          className="svg-inline--fa fa-instagram w-3.5"
           role="img"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 448 512"
@@ -72,13 +72,13 @@ const FooterSmall = () =>(
           ></path>
         </svg>
       </a>
-      <a href="#!" class="mr-9 text-gray-800">
+      <a href="#!" className="mr-9 text-gray-800">
         <svg
           aria-hidden="true"
           focusable="false"
           data-prefix="fab"
           data-icon="linkedin-in"
-          class="svg-inline--fa fa-linkedin-in w-3.5"
+          className="svg-inline--fa fa-linkedin-in w-3.5"
           role="img"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 448 512"
@@ -89,13 +89,13 @@ const FooterSmall = () =>(
           ></path>
         </svg>
       </a>
-      <a href="#!" class="text-gray-800">
+      <a href="#!" className="text-gray-800">
         <svg
           aria-hidden="true"
           focusable="false"
           data-prefix="fab"
           data-icon="github"
-          class="svg-inline--fa fa-github w-4"
+          className="svg-inline--fa fa-github w-4"
           role="img"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 496 512"
@@ -109,9 +109,9 @@ const FooterSmall = () =>(
     </div>
   </div>
 
-  <div class="text-center text-gray-700 p-4" style={{backgroundColor: "rgba(0, 0, 0, 0.2)"}}>
+  <div className="text-center text-gray-700 p-4" style={{backgroundColor: "rgba(0, 0, 0, 0.2)"}}>
     © 2022 Copyright:
-    <a class="text-gray-800" href="https://tailwind-elements.com/">Hire me</a>
+    <a className="text-gray-800" href="https://tailwind-elements.com/">Hire me</a>
   </div>
 </footer>
 )

@@ -4,17 +4,24 @@ import React, { useEffect } from 'react'
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as Actions from "./../redux/Jobs/Actions";
+import * as SActions from "./../redux/Purposal/Actions";
+
 
 import { getUserData } from '../helpers/Session';
 import Error from '../components/Error';
 import Success from '../components/Success';
+import { Link } from 'react-router-dom';
 
 
-const user =  getUserData()
 
 const Jobs = (props) => {
 
+  console.log(props);
+
     const {jobbyid,isFetching,hasSuccess,hasError} = props
+  
+    const user =  getUserData()
+
     
     useEffect(()=>{
         props.getJobById(user._id)
@@ -34,6 +41,13 @@ const Jobs = (props) => {
 
       },1000)
     }
+
+    if(jobbyid){
+      jobbyid.forEach(element => {
+        // getPurposalByJobId(element._id)/
+      });
+    }
+
 
   return (
       <>
@@ -57,6 +71,10 @@ const Jobs = (props) => {
               <p className="text-gray-700 text-base">
                     {data.description}
               </p>
+              <p className="text-gray-700 text-base">
+                  <span className='font-bold'>No. of Purposal: </span>  {data.no_of_purposal}
+                  <Link className='ml-2' to={`/purposal/${data._id}`}>View All</Link>
+              </p>
             </div>
             <div className="px-6 pt-4 pb-2">
               <button  onClick={()=>handleDeleteJob(data._id)} class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
@@ -73,11 +91,12 @@ const Jobs = (props) => {
 
 const mapStateToProps = (state) => ({
     ...state.Jobs,
+    ...state.Purposal
   });
   
   const mapDispatchToProps = (dispatch) => {
     return {
-      ...bindActionCreators({ ...Actions }, dispatch),
+      ...bindActionCreators({ ...Actions,...SActions }, dispatch),
     };
   };
   

@@ -2,12 +2,15 @@ const express = require("express");
 
 const {check} = require("express-validator");
 const { signup,signin,changePassword } = require("../controller/auth");
-const { isSignedIn, isAuthenticate } = require("../controller/auth");
-const { getUserById } = require("../controller/user");
+const { isSignedIn, isAuthenticate,verifyUserEmail } = require("../controller/auth");
+const { getUserById, getEmployeeById, getEmployerById } = require("../controller/user");
 
 const router = express.Router();
 
 router.param("uId",getUserById);
+router.param("employeeId",getEmployeeById);
+router.param("employerId",getEmployerById);
+
 
 
 router.post("/signup",
@@ -31,6 +34,10 @@ signin
 //reset password
 
 router.post("/change-password/:uId",isSignedIn,changePassword)
+
+router.get("/verification/employee-account/:employeeId",verifyUserEmail);
+router.get("/verification/employer-account/:employerId",verifyUserEmail);
+
 
 
 module.exports = router

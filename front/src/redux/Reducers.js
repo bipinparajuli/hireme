@@ -6,6 +6,8 @@ import Register from "./Register/Reducer";
 // import ChangePassword from "./ChangePassword/Reducer";
 
 import Jobs from "./Jobs/Reducer"
+import Purposal from "./Purposal/Reducer"
+
 
 
 // import MainLayout from "./MainLayout/Reducer";
@@ -18,5 +20,6 @@ export default {
   // Auth Reducers
   Login,
   Register,
+  Purposal
   // ChangePassword,
 }

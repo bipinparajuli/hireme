@@ -26,8 +26,17 @@ const PostJob = (props) => {
   const {isFetching,hasError,hasSuccess} = props;
 
   function handleFormSubmit(values,{resetForm}){
-    console.log(values)
-    props.handleJobRequestAction(values,user._id)
+    console.log(values);
+    let formData = new FormData()
+    for (let value in values) {
+      if(value == "skills" ){
+        console.log(JSON.stringify(values[value]));
+        formData.append(value,JSON.stringify(values[value]));
+      }else{
+      formData.append(value, values[value]);
+      }
+    }
+    props.handleJobRequestAction(formData,user._id)
     resetForm()
 
   }
@@ -35,14 +44,15 @@ const PostJob = (props) => {
   console.log(hasSuccess,hasError);
 
   return (
-    <main class="main bg-white px-6 md:px-16 py-6 mb-10">
-    <div class="w-full max-w-xl mx-auto">
+    <main className="main bg-white px-6 md:px-16 py-6 mb-10">
+    <div className="w-full max-w-xl mx-auto">
     <Formik
             enableReinitialize
             initialValues={{
               name: "",
               description:"",
               budget: "",
+              file:null,
               skills: [
                 {
                   // skill: "",
@@ -53,11 +63,11 @@ const PostJob = (props) => {
             validationSchema={JobValidationSchema}
           >
             {(renderProps) => {
-              const { values: formValues, touched, errors } = renderProps;
+              const { values: formValues, touched, errors,setFieldValue } = renderProps;
               return (
                 <>
-                  <Form>
-        <h1 class="text-2xl mb-2">Post new job</h1>
+                  <Form encType='multipart/form-data'>
+        <h1 className="text-2xl mb-2">Post new job</h1>
         {
                         hasError && (
                           <Error message="Job Posting Failed" />
@@ -69,11 +79,11 @@ const PostJob = (props) => {
                         )
                       }
         
-        <div class="job-info border-b-2 py-2 mb-5">
-          <div class="mb-4">
-            <label class="block text-gray-700 text-sm mb-2" for="job-title">Title</label>
+        <div className="job-info border-b-2 py-2 mb-5">
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm mb-2" for="job-title">Title</label>
             <input 
-              class="appearance-none block w-full bg-white text-gray-700 border border-gray-400 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:border-gray-500"
+              className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:border-gray-500"
               type="text"
               id="job-title"
               name="job-title"
@@ -90,40 +100,45 @@ const PostJob = (props) => {
 
         
 
-          <div class="md:flex md:justify-between">
-            <div class="w-full md:w-3/12 mb-4 md:mb-0">
-                <label class="block text-gray-700 text-sm mb-2" for="job-type">
-                  Job Type
-                </label>
-                <div class="relative">
-                  <select class="block appearance-none w-full bg-white border border-gray-400 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-gray-500" id="job-type" name="job-type">
-                    <option>Full-time</option>
-                    <option>Part-time</option>
-                    <option>Freelance</option>
-                    <option>Contract</option>
-                  </select>
+          <div className="flex justify-center mt-8">
+    <div className="max-w-2xl rounded-lg shadow-xl bg-gray-50">
+        <div className="m-4">
+            <label className="inline-block mb-2 text-gray-500">File Upload</label>
+            <div className="flex items-center justify-center w-full">
+                <label
+                    className="flex flex-col w-full h-32 border-4 border-blue-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
+                    <div className="flex flex-col items-center justify-center pt-7">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-gray-400 group-hover:text-gray-600"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
+                        <p className="pt-1 text-sm tracking-wider text-gray-400 group-hover:text-gray-600">
+                            Attach a file</p>
+                    </div>
+                    <input 
+                    name="file"
+                    id='file'
+                    type="file"
+                    accept='image/*'
+                    className="opacity-0"
+                    onChange={(event)=>{
+                      setFieldValue("file", event.currentTarget.files[0]);
 
-                  <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                  </div>
-                </div>
+                    }}
+                    
+                      />
+                </label>
             </div>
-
-            {/* <div class="w-full md:w-8/12 mb-4 md:mb-0">
-              <label for="location" class="block text-gray-700 text-sm mb-2">Location</label>
-              <input type="text" class="appearance-none block w-full bg-white text-gray-700 border border-gray-400 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:border-gray-500" id="location" name="location" placeholder="Schwerin" />
-
-              <div>
-                <label class="text-gray-600 flex items-center" for="remote">
-                  <input class="mr-2 leading-tight" type="checkbox" id="remote" />
-                  <span class="text-sm">Work can be done remotely</span>
-                </label>
-              </div>
-            </div> */}
-          </div> 
+        </div>
+        <div className="flex justify-center p-2">
+            <button className="w-full px-4 py-2 text-white bg-blue-500 rounded shadow-xl">Create</button>
+        </div>
+    </div>
+</div> 
 
           <div>
-            <label for="description" class="block text-gray-700 text-sm mb-2">Description</label>
+            <label for="description" className="block text-gray-700 text-sm mb-2">Description</label>
             <textarea 
             name="description"
             id="description"
@@ -187,12 +202,12 @@ const PostJob = (props) => {
           )}
         />
         
-        <div class="payment mb-6">
+        <div className="payment mb-6">
           
-          <h4 class="mb-2">Payment</h4>
-          <p class="bg-gray-200 py-3 text-center text-sm">
+          <h4 className="mb-2">Payment</h4>
+          <p className="bg-gray-200 py-3 text-center text-sm">
               <input
-              class="appearance-none block bg-white text-gray-700 border border-gray-400 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:border-gray-500"
+              className="appearance-none block bg-white text-gray-700 border border-gray-400 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:border-gray-500"
               value={formValues.budget}
               onChange={(e) =>
                   renderProps.setFieldValue("budget", e.target.value)
@@ -207,7 +222,7 @@ const PostJob = (props) => {
         
         
         <div>
-          <button class="bg-teal-500 hover:bg-teal-600 text-white py-2 px-3 mb-10 rounded"
+          <button className="bg-teal-500 hover:bg-teal-600 text-white py-2 px-3 mb-10 rounded"
            type="submit">
             {isFetching?"Posting ..." :"Post job"}
              </button>

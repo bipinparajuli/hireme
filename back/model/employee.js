@@ -1,4 +1,4 @@
-const {Sequelize, INTEGER, STRING, ENUM, DATE, DATEONLY, NOW, DataTypes, fn} = require("sequelize");
+const {Sequelize, INTEGER, STRING, ENUM, DATE, DATEONLY, NOW, DataTypes, fn, ARRAY} = require("sequelize");
 
 const sequlize = require("../database")
 
@@ -23,10 +23,39 @@ const Employee = sequlize.define("Employee",{
         type:STRING,
         allowNull:false
     },
+    f_name:{
+        type:STRING,
+        allowNull:false
+    },
+    l_name:{
+        type:STRING,
+        allowNull:false
+    },
+    phone:{
+        type:STRING,
+        allowNull:false
+    },
     u_password:
     {
         type:STRING,
         allowNull:false
+    },
+    u_address:{
+        type:STRING
+    },
+    skills:{
+    type: Sequelize.JSON  
+
+    },
+    u_remarks:{
+        type: Sequelize.JSON  
+    },
+    u_about:{
+        type:STRING
+    },
+    status: {
+        type: STRING,
+        default: "pending",
     }
     // ,
     // u_status:{
@@ -52,10 +81,7 @@ const Employee = sequlize.define("Employee",{
     //     type:STRING,
     //     // allowNull:false
     // },
-    u_remarks:{
-        type:STRING,
-        // allowNull:false
-    },
+   
     // u_isadded:{
     //     type: Sequelize.DATE, 
     //     defaultValue: Sequelize.NOW,
@@ -78,7 +104,7 @@ const Employee = sequlize.define("Employee",{
 
     // }
 }, {
-    timestamps: false
+    timestamps: true
 })
 
 module.exports = Employee

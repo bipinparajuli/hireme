@@ -1,4 +1,6 @@
 const Jobs = require("../model/jobs")
+const formidable = require("formidable")
+const fs = require("fs");
 
 
 //finding job by id through parameter
@@ -14,42 +16,81 @@ exports.findJobById = (req,res,next,id) => {
 
   })
   .catch(
-      err=>
-      res.json
-    (
-        {
-            success:false,
-            status:400,
-            error:err,
-            messege:["Failed to get job by id"]
-        }
-    )
+      err=>{
+        console.log(err);
+        res.json
+        (
+            {
+                success:false,
+                status:400,
+                error:err,
+                messege:["Failed to get job by id"]
+            }
+        )
+      }
+    
 )
 
 }
 
 //creating job
-exports.createJobs = (req,res)=>{
+exports.createJobs = async (req,res)=>{
+  const form = new formidable.IncomingForm()
+  // form.keepExtensions = true;
 
-  const {name,description,budget,skills} = req.body;
 
-  console.log(req.profile)
-    Jobs.create({
-      name,
-      description,
-      budget,
-      skills,
-      employer_no:req.profile._id
-    }).then(data=>{
-      // console.log(data,req.profile)  
-    return  res.status(200).json({success:true,status:200,data:data,messege:["API is working"]})
+await form.parse(req, (err, fields, files) => {
 
-    }).catch(err=>{
-      console.log(err)
-    return res.status(402).json({success:false,status:402,error:"Failed to create job",messege:["API is not working"]})
 
-    })
+    
+  if (err) return res.status(400).json({success:false,status:400,error:"Cannot Process Image",messege:["API is not working"]})
 
+    console.log("FILEDS",fields);
+
+
+    const { name, description, budget,skills } = fields;
+    // console.log(JSON.stringify(skills));
+
+    // console.log(JSON.parse(skills));
+
+
+
+    if (!name || !description || !budget || !skills )
+    return res.status(400).json({success:false,status:400,error:"Please include all fields",messege:["API is not working"]})
+
+    if (files.file) {
+
+      // if (files.file.size > 2097152)
+        // return handleError(res, "Image exceeds 2MB limit!", 400);
+
+
+      let data = fs.readFileSync(files.file.filepath);
+      // job.file.contentType = files.file.type;
+      console.log("FILE",files.file.size);
+
+      Jobs.create({
+            name,
+            description,
+            budget,
+            skills:skills,
+            employer_no:req.profile._id,
+            file:data
+          }).then(data=>{
+            // console.log(data,req.profile)  
+          return  res.status(200).json({success:true,status:200,data:data,messege:["API is working"]})
+      
+          }).catch(err=>{
+            console.log(err)
+          return res.status(402).json({success:false,status:402,error:"Failed to create job",messege:["API is not working"]})
+      
+          })
+
+    }
+
+
+   
+  });
+  
 }
 
 //find jobs created by ecmployer
@@ -100,4 +141,26 @@ exports.deleteJobs = (req,res) => {
 
  
 
+}
+
+//get photo
+exports.getPhoto = (req,res,next) => {
+  if (req.job.file) {
+    // res.set("Content-Type", req.product.photo.contentType);
+    console.log("JOB");
+    return res.send(req.job.file);
+  }
+  next();
+}
+
+//update no_of_purposal
+
+exports.updateJob = (req,res) => {
+  console.log(req.job);
+  Jobs.update({no_of_purposal:req.job.no_of_purposal+1},
+    {where:{_id:req.job._id}}).then(data=>{
+      console.log("Update Success",data);
+    }).catch(err=>{
+      console.log("error",err);
+    })  
 }

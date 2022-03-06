@@ -1,6 +1,6 @@
 import React from "react";
 import * as Yup from 'yup'
-import { Formik, Form,ErrorMessage } from "formik";
+import { Formik, Form,ErrorMessage,FieldArray,Field } from "formik";
 
 // For redux
 import { bindActionCreators } from "redux";
@@ -15,6 +15,11 @@ const LoginValidationSchema = Yup.object().shape({
   u_name: Yup.string().required("Please enter username"),
   u_email: Yup.string().required("Please enter email"),
   password: Yup.string().required("Please enter a password").min(8).max(255),
+  u_address: Yup.string().required("Please enter address"),
+  f_name: Yup.string().required("Please enter first name"),
+  l_name: Yup.string().required("Please enter last name"),
+  phone: Yup.number().required("Please enter phone number"),
+
 });
 
 
@@ -38,8 +43,8 @@ const LoginValidationSchema = Yup.object().shape({
 
   return (
     <>
-      <main>
-        <section className="absolute w-full h-full">
+      {/* <main> */}
+        <section className="absolute w-full">
           <div
             className="absolute top-0 w-full h-full bg-gray-900"
             style={{
@@ -50,7 +55,7 @@ const LoginValidationSchema = Yup.object().shape({
             }}
           ></div>
           <div className="container mx-auto px-4 h-full">
-            <div className="flex content-center items-center justify-center h-full">
+            <div className="flex content-center items-center justify-center h-full mt-4">
               <div className="w-full lg:w-4/12 px-4">
                 <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-300 border-0">
                   {/* <div className="rounded-t mb-0 px-6 py-6">
@@ -105,9 +110,18 @@ const LoginValidationSchema = Yup.object().shape({
             enableReinitialize
             initialValues={{
               u_name:"",
+              f_name:"",
+              l_name:"",
+              phone:"",
               u_email: "",
               u_role:"",
               password: "",
+              u_address:"",
+              skills: [
+                {
+                  // skill: "",
+                }
+              ]
             }}
             onSubmit={handleFormSubmit}
             validationSchema={LoginValidationSchema}
@@ -136,6 +150,90 @@ const LoginValidationSchema = Yup.object().shape({
                         />
                       <ErrorMessage name="u_name" render={msg => <div style={{color:"red"}}>{msg}</div>} />
                       </div>
+
+                      <div className="relative w-full mb-3">
+                        <label
+                          className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                          htmlFor="grid-password"
+                        >
+                          Firstname
+                        </label>
+                        <input
+                          type="text"
+                          className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
+                          placeholder="First Name"
+                          style={{ transition: "all .15s ease" }}
+                          value={formValues.f_name}
+                          onChange={(e) =>
+                            renderProps.setFieldValue("f_name", e.target.value)
+                          }
+                        />
+                      <ErrorMessage name="f_name" render={msg => <div style={{color:"red"}}>{msg}</div>} />
+                      </div>
+
+                      <div className="relative w-full mb-3">
+                        <label
+                          className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                          htmlFor="grid-password"
+                        >
+                          Lastname
+                        </label>
+                        <input
+                          type="text"
+                          className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
+                          placeholder="Last name"
+                          style={{ transition: "all .15s ease" }}
+                          value={formValues.l_name}
+                          onChange={(e) =>
+                            renderProps.setFieldValue("l_name", e.target.value)
+                          }
+                        />
+                      <ErrorMessage name="l_name" render={msg => <div style={{color:"red"}}>{msg}</div>} />
+                      </div>
+
+                          {/* address */}
+                          <div className="relative w-full mb-3">
+                        <label
+                          className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                          htmlFor="grid-password"
+                        >
+                          Address
+                        </label>
+                        <input
+                          type="text"
+                          className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
+                          placeholder="eg: Kathmandu Nepal"
+                          style={{ transition: "all .15s ease" }}
+                          value={formValues.u_address}
+                          onChange={(e) =>
+                            renderProps.setFieldValue("u_address", e.target.value)
+                          }
+                        />
+                      <ErrorMessage name="u_address" render={msg => <div style={{color:"red"}}>{msg}</div>} />
+                      </div>
+
+                           {/* phone */}
+                           <div className="relative w-full mb-3">
+                        <label
+                          className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                          htmlFor="grid-password"
+                        >
+                          Phone
+                        </label>
+                        <input
+                          type="text"
+                          className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
+                          placeholder="98********"
+                          style={{ transition: "all .15s ease" }}
+                          value={formValues.phone}
+                          onChange={(e) =>
+                            renderProps.setFieldValue("phone", e.target.value)
+                          }
+                        />
+                      <ErrorMessage name="phone" render={msg => <div style={{color:"red"}}>{msg}</div>} />
+                      </div>
+                      
+
                       <div className="relative w-full mb-3">
                         <label
                           className="block uppercase text-gray-700 text-xs font-bold mb-2"
@@ -176,6 +274,80 @@ const LoginValidationSchema = Yup.object().shape({
                       <ErrorMessage name="password" render={msg => <div style={{color:"red"}}>{msg}</div>} />
 
                       </div>
+
+                      {
+                       formValues.u_role =="Employee"?(
+                              <>
+                              <h6>Add Skills</h6>
+        <FieldArray
+          name="skills"
+          render={(arrayHelpers) => (
+            <div>
+              {formValues.skills && formValues.skills.length > 0 ? (
+                formValues.skills.map((item, index) => (
+                  <div key={index}>
+                    <Field
+                      // component={TextField}
+                      variant="outlined"
+                      fullWidth
+                      label="skill"
+                      placeholder="eg. react, angular"
+                      name={`skills.${index}.skill`}
+                    />
+                   
+                    <button
+                      type="button"
+                      onClick={() => arrayHelpers.remove(index)} // remove an item from the list
+                    >
+                      -
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        arrayHelpers.insert(index, { skill: "" })
+                      } // insert an empty item at a position
+                    >
+                      +
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => arrayHelpers.push({ skill: "" })}
+                >
+                  {/* show this when user has removed all items from the list */}
+                  Add item
+                </button>
+              )}
+            </div>
+          )}
+        />
+
+            <div className="relative w-full mb-3">
+                        <label
+                          className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                          htmlFor="grid-password"
+                        >
+                          Describe Yourself
+                        </label>
+                        <textarea
+                          className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
+                          placeholder="talk about past experience here"
+                          style={{ transition: "all .15s ease" }}
+                          value={formValues.u_about}
+                          onChange={(e) =>
+                            renderProps.setFieldValue("u_about", e.target.value)
+                          }
+                        />
+                      <ErrorMessage name="u_about" render={msg => <div style={{color:"red"}}>{msg}</div>} />
+                      </div>
+
+
+                              </>
+                        ):
+                        null
+                      }
                       <div className="flex justify-center">
                         <div className="form-check form-check-inline">
                           <input 
@@ -222,7 +394,7 @@ const LoginValidationSchema = Yup.object().shape({
           </Formik>
                   </div>
                 </div>
-                <div className="flex flex-wrap mt-6">
+                {/* <div className="flex flex-wrap mt-6">
                   <div className="w-1/2">
                     <a
                       href="#pablo"
@@ -241,12 +413,12 @@ const LoginValidationSchema = Yup.object().shape({
                       <small>Create new account</small>
                     </a>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
         </section>
-      </main>
+      {/* </main> */}
     </>
   );
 }

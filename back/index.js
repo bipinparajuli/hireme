@@ -7,6 +7,9 @@ const sequelize = require('./database')
 
 const authRoutes = require("./route/auth")
 const jobsRoutes = require("./route/jobs")
+const purposalRoutes = require("./route/purposal")
+const userRoutes = require("./route/user")
+
 
 const app = express();
 
@@ -30,6 +33,10 @@ app.use(cors())
 //routes
 app.use('/api',authRoutes)
 app.use('/api',jobsRoutes)
+app.use('/api',purposalRoutes)
+app.use('/api',userRoutes)
+
+
 
 
 

@@ -93,7 +93,6 @@ class Api {
 
                 if (data.data) axiosConfig.data = data.data;
             }
-console.log(axiosConfig);
             axios(axiosConfig)
                 .then(response => {
                     console.log(response);

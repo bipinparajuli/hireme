@@ -11,7 +11,8 @@ import Employer from './routes/Employer';
 import PostJob from './pages/PostJob';
 import Jobs from './pages/Jobs';
 import ResetPassword from './pages/ResetPassword';
-
+import Purposal from './pages/Purposal';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -34,6 +35,22 @@ function App() {
           element={
             <Employer>
               <Jobs />
+            </Employer>
+          }
+        />
+        <Route
+          path="/purposal/:id"
+          element={
+            <Employer>
+              <Purposal />
+            </Employer>
+          }
+        />
+        <Route
+          path="/profile/:id"
+          element={
+            <Employer>
+              <Profile />
             </Employer>
           }
         />

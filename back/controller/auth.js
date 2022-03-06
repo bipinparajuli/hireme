@@ -9,11 +9,15 @@ const jwt = require("jsonwebtoken")
 
 const expressJWT = require("express-jwt");
 const { matchPassword } = require("../utils/utils");
+const { sendVerificationEmail } = require("../utils/commonFunction");
+
 
 exports.signup = async (req,res) => {
 
     console.log(req.body)
-const {u_name,u_email,password,u_role} = req.body
+const {u_name,u_email,password,u_role,u_address,skills,u_about,f_name,l_name,phone} = req.body
+const baseurl = req.protocol + "://" + req.get("host");
+
 
 const existingEmployee = await Employee.findOne({where:{u_email:u_email}})
 const existingEmployer = await Employer.findOne({where:{u_email:u_email}})
@@ -46,10 +50,17 @@ if(err)
                 u_name:u_name,
                 u_email:u_email,
                 u_password:hash,
+                u_address,
+                skills,
+                u_about,
+                f_name,
+                l_name,
+                phone
 
             }) .then( data => 
                 {
                     data.u_password=undefined
+                    sendVerificationEmail(data.u_email,baseurl,data._id,u_role)
                     res.json({success:true,status:200,data:data,messege:["API is working"]})
     
                 }
@@ -61,11 +72,14 @@ if(err)
             {
                 u_name:u_name,
                 u_email:u_email,
-                u_password:hash,
+                u_password:hash,f_name,
+                l_name,
+                phone
 
             }).then( data => 
                 {
                     data.u_password=undefined
+                    sendVerificationEmail(data.u_email,baseurl,data._id,u_role)
                     res.json({success:true,status:200,data:data,messege:["API is working"]})
     
                 }
@@ -87,6 +101,7 @@ exports.signin = async (req,res)=>{
 
     const errors = await validationResult(req)
 
+    console.log(errors);
 
     if(!errors.isEmpty())
     {
@@ -101,8 +116,18 @@ exports.signin = async (req,res)=>{
     }else{
     user =await Employee.findOne({where:{u_email:u_email}})
     }
+   
 
     if(user){
+
+        if(user.status !== "active"){
+            return res.json({
+              success:false,
+              error: "Please verify you email"
+            });
+      
+          }
+
         bcrypt.compare(password,user.u_password,(err,result)=>{
                             if(err || !result)
                             {
@@ -226,4 +251,79 @@ exports.changePassword = async (req,res) => {
     
 
     
+}
+
+
+exports.verifyUserEmail=  async (req, res) => {
+    try {
+      console.log("HI",req.profile);
+
+    let user;
+
+      if(req.profile.u_role == "Employer"){
+       user = await Employer.findOne({where:{_id:req.profile._id}});
+
+       if (!user) {
+        res.sendStatus(401);
+    } else {
+        await Employer.update(
+            { status: "active" },
+            { where: { u_email: user.u_email } },
+        )
+        // await Code.deleteMany({ email: user.email });
+
+        let redirectPath;
+
+        if (process.env.NODE_ENV == "production") {
+            redirectPath = `${req.protocol}://${req.get(
+                "host"
+            )}account/verified`;
+        } else {
+          redirectPath = `http://localhost:3000/login`;
+            // redirectPath = `http://127.0.0.1:8080/account/verified`;
+        }
+
+        res.redirect(redirectPath);
+    }
+
+      }else{
+       user = await Employee.findOne({where:{_id:req.profile._id}});
+
+       if (!user) {
+        res.sendStatus(401);
+    } else {
+        await Employee.update(
+            { status: "active" },
+            { where: { u_email: user.u_email } },
+        );
+        // await Code.deleteMany({ email: user.email });
+
+        let redirectPath;
+
+        if (process.env.NODE_ENV == "production") {
+            redirectPath = `${req.protocol}://${req.get(
+                "host"
+            )}account/verified`;
+        } else {
+          redirectPath = `http://localhost:3000/user/${user._id}`;
+            // redirectPath = `http://127.0.0.1:8080/account/verified`;
+        }
+
+        res.redirect(redirectPath);
+    }
+
+      }
+
+        // const response = await Code.findOne({
+        //     email: user.email,
+        //     code: req.params.secretCode,
+        // });
+       
+    } catch (err) {
+        console.log(
+            "Error on /api/auth/verification/verify-account: ",
+            err
+        );
+        res.sendStatus(500);
+    }
 }

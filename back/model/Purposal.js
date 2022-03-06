@@ -2,22 +2,18 @@ const {Sequelize, INTEGER, STRING, ENUM, DATE, DATEONLY, NOW, DataTypes, fn} = r
 
 const sequlize = require("../database")
 
-const Jobs = sequlize.define("Jobs",{
+const Purposal = sequlize.define("Purposal",{
     _id:{
         type:INTEGER,
         primaryKey:true,
         autoIncrement:true,
         allowNull:false
     },
-   name:{
-       type:STRING,
-       allowNull:false
-   },
    description:{
        type:STRING,
        allowNull:false
    },
-   employer_no:{
+   employee_no:{
     type:INTEGER,
     // allowNull:false,
     // references:{
@@ -25,26 +21,16 @@ const Jobs = sequlize.define("Jobs",{
     //     key:'_id'
     // }
    },
-   employee_id:{
+   job_id:{
        type:INTEGER
    },
-   budget:{
-       type:INTEGER,
-        allowNull:false
-
-   },
-   no_of_purposal:{
-    type:INTEGER,
-    defaultValue:0
-   },
-   skills:{
-    type: Sequelize.JSON  
-   },
-   file:{
-    type:Sequelize.BLOB('long'),
-   },
+   applied_by:{
+       type:STRING
+   }
+  
+   
 }, {
     timestamps: true
 })
 
-module.exports = Jobs
+module.exports = Purposal

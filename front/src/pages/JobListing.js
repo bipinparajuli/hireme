@@ -2,7 +2,8 @@ import React,{useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as Actions from "./../redux/Jobs/Actions";
-import { Card } from '../components/Card';
+import Card  from '../components/Card';
+import Landing from '../components/Landing';
 
 const JobListing = (props) => {
 
@@ -17,23 +18,30 @@ const JobListing = (props) => {
   },[])
 
 
-  console.log("SECOND",jobs)
 
   return (
     <>
+    <Landing />
+    <div style={{marginBottom:"10%"}}>
+
+    <h2>Popular Jobs for you</h2>
     {
-    console.log("SECOND",jobs),!jobs ? <h1>loading . . . </h1> : jobs.length==0?<h1>No Jobs found !!</h1> : jobs.map(data=>{
+    !jobs ? <h1>loading . . . </h1> : jobs.length==0?<h1>No Jobs found !!</h1> : jobs.map(data=>{
+      console.log(data._id);
         return(
           <Card 
-            key={data.u_id}
+            key={data._id}
             name={data.name}
             description={data.description}
             skills={data.skills}
             budget={data.budget}
+            jId={data._id}
           />
         )
       })
     }
+    </div>
+
   </>
  
   )

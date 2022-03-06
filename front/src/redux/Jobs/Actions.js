@@ -8,7 +8,9 @@ import {
   JOBBYID_FAILURE,
   DELETEJOBS_SUCCESS,
   DELETEJOBS_FAILURE,
-  RESET_JOBS_PARAMS
+  RESET_JOBS_PARAMS,
+  POSTJOB_FAILURE,
+  POSTJOB_SUCCESS
 
 } from './Constants'
   
@@ -50,12 +52,12 @@ import {
         data:{}
     })
 
-    api.post(`/createjob/${uId}`, { data: payload })
+    api.post(`createjob/${uId}`, { data: payload })
       .then((result) => {
         console.log(result)
         if(result.success) {
           dispatch({
-            type: JOBS_SUCCESS,
+            type: POSTJOB_SUCCESS,
             // data: {
               
             // }
@@ -66,7 +68,7 @@ import {
         } else {
         
           dispatch({
-            type: JOBS_FAILURE,
+            type: POSTJOB_FAILURE,
             data: {
               errorMessage: result.msg,
             }
@@ -76,7 +78,7 @@ import {
       .catch((err) => {
         console.log('err', err);
         dispatch({
-            type: JOBS_FAILURE,
+            type: POSTJOB_FAILURE,
             data: {
               errorMessage: err.msg,
             }

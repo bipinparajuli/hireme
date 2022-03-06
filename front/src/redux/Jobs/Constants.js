@@ -1,5 +1,7 @@
 export const JOBS_SUCCESS = 'Jobs/JOBS_SUCCESS';
 export const JOBS_FAILURE = 'Jobs/JOBS_FAILURE';
+export const POSTJOB_SUCCESS = 'Jobs/POSTJOB_SUCCESS';
+export const POSTJOB_FAILURE = 'Jobs/POSTJOB_FAILURE';
 export const JOBS_REQUEST = 'Job/JOBS_REQUEST';
 export const JOBBYID_SUCCESS = 'Jobs/JOBBYID_SUCCESS';
 export const JOBBYID_FAILURE = 'Jobs/JOBBYID_FAILURE';

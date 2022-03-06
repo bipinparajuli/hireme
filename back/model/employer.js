@@ -27,6 +27,22 @@ const Employer = sequlize.define("Employer",{
     {
         type:STRING,
         allowNull:false
+    },
+    status: {
+        type: STRING,
+        default: "pending",
+    },
+    f_name:{
+        type:STRING,
+        allowNull:false
+    },
+    l_name:{
+        type:STRING,
+        allowNull:false
+    },
+    phone:{
+        type:STRING,
+        allowNull:false
     }
     // ,
     // u_status:{
@@ -78,7 +94,7 @@ const Employer = sequlize.define("Employer",{
 
     // }
 }, {
-    timestamps: false
+    timestamps: true
 })
 
 Employer.associations= function(model){
