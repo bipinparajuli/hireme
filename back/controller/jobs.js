@@ -5,13 +5,13 @@ const fs = require("fs");
 
 //finding job by id through parameter
 exports.findJobById = (req,res,next,id) => {
-  console.log(id);
+  // console.log("JOBID",id);
   Jobs.findOne({where:{_id:id}}).then(data=>{
     if(!data){
         res.json({success:false,status:404,error:"No Jobs found",messege:["API is not working"]})
   }
   req.job = data;
-  // console.log("ID",data)
+  console.log("JOBS",req.job)
   next();
 
   })

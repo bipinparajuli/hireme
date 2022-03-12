@@ -7,6 +7,8 @@ import Register from "./Register/Reducer";
 
 import Jobs from "./Jobs/Reducer"
 import Purposal from "./Purposal/Reducer"
+import Wallet from "./Wallet/Reducer"
+
 
 
 
@@ -20,6 +22,7 @@ export default {
   // Auth Reducers
   Login,
   Register,
-  Purposal
+  Purposal,
+  Wallet
   // ChangePassword,
 }

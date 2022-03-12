@@ -1,0 +1,6 @@
+export const GETTOKEN_SUCCESS = 'Wallet/GETTOKEN_SUCCESS';
+export const GETTOKEN_FAILURE = 'Wallet/GETTOKEN_FAILURE';
+export const PAYENT_SUCCESS = 'Login/PAYENT_SUCCESS';
+export const PAYENT_FAILURE = 'Login/PAYENT_FAILURE';
+// export const RESET_LOGIN_PARAMS = 'Login/RESET_LOGIN_PARAMS';
+

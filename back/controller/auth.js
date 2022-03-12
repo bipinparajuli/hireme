@@ -15,7 +15,7 @@ const { sendVerificationEmail } = require("../utils/commonFunction");
 exports.signup = async (req,res) => {
 
     console.log(req.body)
-const {u_name,u_email,password,u_role,u_address,skills,u_about,f_name,l_name,phone} = req.body
+const {u_name,u_email,u_password,u_role,u_address,skills,u_about,f_name,l_name,phone} = req.body
 const baseurl = req.protocol + "://" + req.get("host");
 
 
@@ -38,7 +38,7 @@ else{
         })
     }
 
-    bcrypt.hash(password,17,(err,hash)=>{
+    bcrypt.hash(u_password,17,(err,hash)=>{
 if(err)
 {
     res.json({success:false,status:404,error:err,messege:["Failed in hasing password"]})
@@ -97,7 +97,7 @@ if(err)
 
 exports.signin = async (req,res)=>{
 
-    const {u_email,password,u_role} = req.body
+    const {u_email,u_password,u_role} = req.body
 
     const errors = await validationResult(req)
 
@@ -128,7 +128,7 @@ exports.signin = async (req,res)=>{
       
           }
 
-        bcrypt.compare(password,user.u_password,(err,result)=>{
+        bcrypt.compare(u_password,user.u_password,(err,result)=>{
                             if(err || !result)
                             {
                                return res.json({success:false,status:403,error:"Password don't match",messege:["Password don't match"]})

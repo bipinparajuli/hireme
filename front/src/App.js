@@ -13,6 +13,8 @@ import Jobs from './pages/Jobs';
 import ResetPassword from './pages/ResetPassword';
 import Purposal from './pages/Purposal';
 import Profile from './pages/Profile';
+import Wallet from './pages/Wallet';
+import Applications from './pages/Applications';
 
 function App() {
   return (
@@ -27,6 +29,15 @@ function App() {
           element={
             <Employer>
               <PostJob />
+            </Employer>
+          }
+        />
+
+        <Route
+          path="/wallet"
+          element={
+            <Employer>
+              <Wallet />
             </Employer>
           }
         />
@@ -60,6 +71,14 @@ function App() {
           element={
             <Employee>
               <Jobs />
+            </Employee>
+          }
+        />
+        <Route
+          path="/applications"
+          element={
+            <Employee>
+              <Applications />
             </Employee>
           }
         />

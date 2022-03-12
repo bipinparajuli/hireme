@@ -1,3 +1,4 @@
+const Jobs = require("../model/jobs")
 const Purposal = require("../model/Purposal")
 
 
@@ -68,4 +69,84 @@ exports.getPuposalByEmployee = (req,res) => {
             }
         )
     )
+}
+
+//get purposal by id
+exports.getPurposalById = (req,res,next,id) => {
+
+   
+    // console.log(next,id);
+
+    Purposal.findOne({where:{_id:id}}).then(data=>{
+        // console.log("DsATA",data)
+
+        if(!data){
+           return res.json({success:false,status:404,error:"No Purposal found",messege:["API is not working"]})
+    }
+req.purposal = data;
+next();
+
+    })
+    .catch(
+        err=>
+        res.json
+        (
+            {
+                success:false,
+                status:400,
+                error:err,
+                messege:["Failed to get purposal by id"]
+            }
+        )
+    )
+    
+}
+
+exports.updatePurposalStatus = (req,res) => {
+
+    console.log(req.job);
+
+    Purposal.destroy( {where: {
+        job_id: req.job._id,
+        status: 'pending'
+      }})
+
+    Purposal.update({status:"active"},
+        {where:{_id:req.purposal._id}}).then(data=>{
+          console.log("Update Success",data);
+        return res.status(200).json({success:true,status:200,data:data,messege:["API is working"]})
+
+        }).catch(err=>{
+          console.log("error",err);
+          return res.json({success:false,status:404,error:err,messege:["API is not working"]})
+
+        })  
+}
+
+//UPDATE ONGOING PERCENTAGE
+exports.updateOngoingPercentage = (req,res) => {
+
+    console.log(req.job);
+
+    Jobs.update({ongoing_percentage:req.body.ongoing_percentage},
+        {where:{_id:req.job._id}}).then(data=>{
+          console.log("Update Success",data);
+        // return res.status(200).json({success:true,status:200,data:data,messege:["API is working"]})
+
+        }).catch(err=>{
+          console.log("error",err);
+        //   return res.json({success:false,status:404,error:err,messege:["API is not working"]})
+
+        })  
+
+    Purposal.update({ongoing_percentage:req.body.ongoing_percentage},
+        {where:{_id:req.purposal._id}}).then(data=>{
+          console.log("Update Success",data);
+        return res.status(200).json({success:true,status:200,data:data,messege:["API is working"]})
+
+        }).catch(err=>{
+          console.log("error",err);
+          return res.json({success:false,status:404,error:err,messege:["API is not working"]})
+
+        })  
 }

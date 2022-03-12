@@ -7,8 +7,12 @@ import * as Actions from "./../redux/Purposal/Actions";
 import { Link, useParams } from 'react-router-dom';
 
 
-const Purposal = ({getPurposalByJobId,pruposalbyjobid}) => {
+const Purposal = ({getPurposalByJobId,pruposalbyjobid,updatePurposalStatus}) => {
     const{id}= useParams()
+
+    function updatePurposalHandler (pid){
+      updatePurposalStatus(id,pid)
+    }
     
     useEffect(()=>{
         getPurposalByJobId(id)
@@ -39,6 +43,16 @@ console.log(pruposalbyjobid);
             {purposal.description}
       </p>
       <p class="text-gray-600 text-xs">Last updated 3 mins ago</p>
+      {purposal.status == 'active'?
+  <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+    <div class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{width: `${purposal.ongoing_percentage}%`}}>{purposal.ongoing_percentage}</div>
+  </div>:
+      <button onClick={()=>updatePurposalHandler(purposal._id)}> Accept Purposal</button>
+
+    }
+    {
+      purposal.ongoing_percentage == "100" ? <button>Pay Now</button> : null
+    }
     </div>
   </div>
 </div>

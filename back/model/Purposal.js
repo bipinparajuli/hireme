@@ -26,7 +26,17 @@ const Purposal = sequlize.define("Purposal",{
    },
    applied_by:{
        type:STRING
+   },
+   status:{
+       type:STRING
+   },
+   ongoing_percentage:{
+    type:INTEGER
+   },
+   job_description:{
+       type:STRING
    }
+
   
    
 }, {

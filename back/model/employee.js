@@ -23,6 +23,9 @@ const Employee = sequlize.define("Employee",{
         type:STRING,
         allowNull:false
     },
+    coin:{
+        type:INTEGER
+    },
     f_name:{
         type:STRING,
         allowNull:false

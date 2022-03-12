@@ -7,7 +7,13 @@ import {
     GETEMPLOYEEID_FAILURE,
     GETEMPLOYEEID_SUCCESS,
     SUBIT_REMARKS_FAILURE,
-    SUBIT_REMARKS_SUCCESS
+    SUBIT_REMARKS_SUCCESS,
+    GETPURPOSALBYEMPLOYEE_FAILURE,
+    GETPURPOSALBYEMPLOYEE_SUCCESS,
+    UPDATEPURPOSAL_FAILURE,
+    UPDATEPURPOSAL_SUCCESS,
+    UPDATEONGOINGPERCENTAGE_FAILURE,
+    UPDATEONGOINGPERCENTAGE_SUCCESS
 
   } from './Constants';
   
@@ -170,3 +176,113 @@ console.log(payload);
             })
           });
       }
+      // 
+       //get job by id
+   export const getPurposalByEmployeeId = (payload) => dispatch => {
+    console.log(payload);
+    api.get(`/getpurposalbyemployee/${payload}`, { data: payload })
+      .then((result) => {
+        console.log(result)
+        if(result.success) {
+            // id=result.data._id
+          dispatch({
+            type: GETPURPOSALBYEMPLOYEE_SUCCESS,
+            data: result.data
+          })
+  
+        } else {
+          
+          dispatch({
+            type: GETPURPOSALBYEMPLOYEE_FAILURE,
+            data: {
+              errorMessage: result.msg,
+            }
+          })
+        }
+      })
+      .catch((err) => {
+        console.log('err', err);
+        dispatch({
+          type: GETPURPOSALBYEMPLOYEE_FAILURE,
+          data: {
+            errorMessage: err.msg,
+          }
+        })
+      });
+  }
+
+
+  export const updatePurposalStatus = (jid,pid) => dispatch => {
+            
+        api.post(`updatepurposalstatus/${jid}/${pid}`,)
+          .then((result) => {
+            console.log(result)
+            if(result.success) {
+              dispatch({
+                type: UPDATEPURPOSAL_SUCCESS,
+                data: {
+                  // descriptin:result.data
+                }
+              })
+      
+            
+      
+            } else {
+            
+              dispatch({
+                type: UPDATEPURPOSAL_FAILURE,
+                data: {
+                  errorMessage: result.error,
+                }
+              })
+            }
+          })
+          .catch((err) => {
+            console.log('err', err);
+            dispatch({
+              type: UPDATEPURPOSAL_FAILURE,
+              data: {
+                errorMessage: err.error,
+              }
+            })
+          });
+      }
+
+      export const updateOngoingPercentage = (jid,pid,payload) => dispatch => {
+            
+        api.post(`updateongoingpercentage/${jid}/${pid}`,{ data: payload })
+          .then((result) => {
+            console.log(result)
+            if(result.success) {
+              dispatch({
+                type: UPDATEONGOINGPERCENTAGE_SUCCESS,
+                data: {
+                  // descriptin:result.data
+                }
+              })
+      
+            
+      
+            } else {
+            
+              dispatch({
+                type: UPDATEONGOINGPERCENTAGE_FAILURE,
+                data: {
+                  errorMessage: result.error,
+                }
+              })
+            }
+          })
+          .catch((err) => {
+            console.log('err', err);
+            dispatch({
+              type: UPDATEONGOINGPERCENTAGE_FAILURE,
+              data: {
+                errorMessage: err.error,
+              }
+            })
+          });
+      }
+
+      
+      

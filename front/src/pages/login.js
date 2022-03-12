@@ -15,7 +15,7 @@ import Success from "../components/Success";
 
 const LoginValidationSchema = Yup.object().shape({
   u_email: Yup.string().required("Please enter username or email"),
-  password: Yup.string().required("Please enter a password").min(8).max(255),
+  u_password: Yup.string().required("Please enter a password").min(8).max(255),
 });
 
 
@@ -104,7 +104,7 @@ const LoginValidationSchema = Yup.object().shape({
             initialValues={{
               u_email: "",
               u_role:"",
-              password: "",
+              u_password: "",
             }}
             onSubmit={handleFormSubmit}
             validationSchema={LoginValidationSchema}
@@ -152,12 +152,12 @@ const LoginValidationSchema = Yup.object().shape({
                           className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                           placeholder="Password"
                           style={{ transition: "all .15s ease" }}
-                          value={formValues.password}
+                          value={formValues.u_password}
                           onChange={(e) =>
-                            renderProps.setFieldValue("password", e.target.value)
+                            renderProps.setFieldValue("u_password", e.target.value)
                           }
                         />
-                      <ErrorMessage name="password" render={msg => <div style={{color:"red"}}>{msg}</div>} />
+                      <ErrorMessage name="u_password" render={msg => <div style={{color:"red"}}>{msg}</div>} />
 
                       </div>
                       <div className="flex justify-center">

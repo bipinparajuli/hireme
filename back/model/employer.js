@@ -9,6 +9,9 @@ const Employer = sequlize.define("Employer",{
         autoIncrement:true,
         allowNull:false
     },
+    coin:{
+        type:INTEGER
+    },
     // u_fname:{
     //     type:STRING
     //     ,

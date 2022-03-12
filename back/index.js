@@ -9,6 +9,8 @@ const authRoutes = require("./route/auth")
 const jobsRoutes = require("./route/jobs")
 const purposalRoutes = require("./route/purposal")
 const userRoutes = require("./route/user")
+const braintreeRoutes = require("./route/braintree")
+
 
 
 const app = express();
@@ -35,6 +37,8 @@ app.use('/api',authRoutes)
 app.use('/api',jobsRoutes)
 app.use('/api',purposalRoutes)
 app.use('/api',userRoutes)
+app.use('/api',braintreeRoutes)
+
 
 
 

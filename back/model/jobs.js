@@ -33,6 +33,9 @@ const Jobs = sequlize.define("Jobs",{
         allowNull:false
 
    },
+   ongoing_percentage:{
+    type:INTEGER
+   },
    no_of_purposal:{
     type:INTEGER,
     defaultValue:0

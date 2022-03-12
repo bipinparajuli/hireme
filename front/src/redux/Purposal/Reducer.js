@@ -5,7 +5,9 @@ import {
      PURPOSAL_REQUEST,
      PURPOSAL_SUCCESS,
      GETEMPLOYEEID_FAILURE,
-     GETEMPLOYEEID_SUCCESS
+     GETEMPLOYEEID_SUCCESS,
+     GETPURPOSALBYEMPLOYEE_FAILURE,
+     GETPURPOSALBYEMPLOYEE_SUCCESS
   } from './Constants';
   
   const initialState = {
@@ -15,6 +17,7 @@ import {
     isFetching: false,
     hasSuccess:false,
     pruposal:[],
+    mypurposal:[],
     employee:""
 
   };
@@ -33,6 +36,29 @@ import {
 
         };
       case PURPOSAL_FAILURE:
+        return {
+          ...state,
+          hasError: true,
+          ...action.data,
+          isFetching: false,
+          // hasSuccess:false,
+
+
+        };
+
+        case GETPURPOSALBYEMPLOYEE_SUCCESS:  
+        return {
+          ...state,
+          errorMessage: '',
+        //   jobs: action.data,
+          isFetching: false,
+          mypurposal:action.data
+          // hasSuccess:true,
+          // hasError: false,
+
+
+        };
+      case GETPURPOSALBYEMPLOYEE_FAILURE:
         return {
           ...state,
           hasError: true,

@@ -80,6 +80,7 @@ const Jobs = (props) => {
               <button  onClick={()=>handleDeleteJob(data._id)} class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
                 <span>{isFetching?"Deleteing...":'Delete'}</span>
                </button>
+              
             </div>
           </div>
         ))
