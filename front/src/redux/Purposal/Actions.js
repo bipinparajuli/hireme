@@ -13,7 +13,8 @@ import {
     UPDATEPURPOSAL_FAILURE,
     UPDATEPURPOSAL_SUCCESS,
     UPDATEONGOINGPERCENTAGE_FAILURE,
-    UPDATEONGOINGPERCENTAGE_SUCCESS
+    UPDATEONGOINGPERCENTAGE_SUCCESS,
+    RESET_PURPOSAL_PARAMS
 
   } from './Constants';
   
@@ -285,4 +286,9 @@ console.log(payload);
       }
 
       
-      
+      export const resetStateHandler = () => dispatch => {
+        dispatch({
+          type:RESET_PURPOSAL_PARAMS,
+          data:{}
+      })
+      }

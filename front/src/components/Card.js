@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import ImageHelper from '../helpers/ImageHelper'
 import { getUserData } from '../helpers/Session'
@@ -13,7 +13,7 @@ import Error from "../components/Error";
 import Success from "../components/Success";
 
 
- const Card = ({name,description,skills,budget,jId,handlePurposalRequestAction}) => {
+ const Card = ({name,description,skills,budget,jId,handlePurposalRequestAction,isFetching,hasError,hasSuccess,resetStateHandler}) => {
   const [showModal, setShowModal] = React.useState(false);
   const [value, setValue] = React.useState({
     description:""
@@ -25,6 +25,22 @@ import Success from "../components/Success";
    console.log(user);
   handlePurposalRequestAction(value,user._id,jId);
  }
+useEffect(()=>{
+  console.log(hasSuccess);
+  if(hasSuccess){
+    alert("Posting success")
+     setShowModal(!showModal)
+     resetStateHandler()
+    }
+    
+    if(hasError){
+      alert("Posting failure")
+     setShowModal(false)
+      resetStateHandler()
+    
+    }
+
+},[hasSuccess,hasError])
 
 
 
@@ -52,15 +68,17 @@ import Success from "../components/Success";
 }
 
      
-
+{ user !== undefined ? user.role == "Employee" ?
       <button
-        className={`bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 ${user!=undefined? user.role == "Employer" ? 'cursor-not-allowed':null:null}`}
+        className={`bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150`}
         type="button"
         onClick={() => setShowModal(true)}
         
       >
         Apply
-      </button>
+      </button>:null:null
+
+}
       {showModal ? (
         <>
           <div
@@ -105,7 +123,9 @@ import Success from "../components/Success";
                     type="button"
                     onClick={handlePuropsalSubmit}
                   >
-                    Submit
+                    
+      {isFetching?' Posting . . . ': 'Submit'}
+
                   </button>
                 </div>
               </div>

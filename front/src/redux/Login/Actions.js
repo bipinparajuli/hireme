@@ -29,6 +29,7 @@ import {
               user: {
                 "_id": result.data._id,
                 "role": result.data.u_role,
+                "coin":result.data.coin,
 
               },
               token: result.data.token

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Transition } from "@headlessui/react";
 import {Link, Navigate} from 'react-router-dom'
-import { deleteSession, hasToken } from "../helpers/Session";
+import { deleteSession, hasToken,getUserData } from "../helpers/Session";
 
 // For redux
 import { bindActionCreators } from "redux";
@@ -11,6 +11,8 @@ import * as Actions from "./../redux/Login/Actions";
 function Nav(props) {
   const [isOpen, setIsOpen] = useState(false);
   const { isAuthenticated, logoutHandler} = props
+
+  let user = getUserData()
 
   return (
     <div>
@@ -34,25 +36,31 @@ function Nav(props) {
                     HIREME
                   </Link>
 
-                  <Link
+                  {user !== undefined? user.role =="Employer" ? <Link
                     to="/projects"
                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Projects
-                  </Link>
+                  </Link> :null:null }
 
+                  {user !== undefined?user.role =="Employer" ?
                   <Link
                     to="/postjob"
                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Post Job
-                  </Link>
+                  </Link>:null:null
+}
+
+{user !== undefined?user.role =="Employee" ?
+
                   <Link
                   to="/applications"
                   className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                 >
                   View Application
-                </Link>
+                </Link>:null:null
+}
                   <Link
                     to="/wallet"
                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"

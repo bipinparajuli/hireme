@@ -16,13 +16,18 @@ const BraintreeCheckout = (props) => {
 
   const userId = getUserData()._id;
   const token = getUserData().token;
+  const coins = getUserData().coin;
+
   const [info, setInfo] = useState({
     clientToken: null,
     instance: {},
     loading: false,
     success: false,
     err: "",
+    coin:""
   });
+
+  const {coin} = info 
 
 
   const getClientToken = (userId, token) => {
@@ -38,13 +43,16 @@ const BraintreeCheckout = (props) => {
   };
 
   const onPurchase = () => {
-    console.log(info.instance);
+    console.log(coin);
+    let amounts = coin * 10
+    console.log(amounts);
     info.instance.requestPaymentMethod().then((data) => {
       const paymentData = {
         paymentMethodNonce: data.nonce,
-        amount: 10,
+        amount:amounts ,
+        coin:coin
       };
-      props.processPayment(paymentData,userId )
+      props.processPayment(paymentData,userId)
         .then((response) => {
           // const orderData = {
           //   products: products,
@@ -83,6 +91,13 @@ const BraintreeCheckout = (props) => {
         <div class="flex mb-4">
         <div class="w-1/2 bg-gray-400 h-12">
             <h3>Your Available Coins</h3>
+            <p>{coins}</p>
+            <h4>Enter the no of coin you want to buy</h4>
+            <p>1 coin == 10 usd</p>
+            <input
+            onChange={e=>setInfo({...info,coin:e.target.value})}
+            
+            />
         </div>
         <div class="w-1/2 bg-gray-500 h-12">
         <div>

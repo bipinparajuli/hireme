@@ -39,7 +39,7 @@ props.getPurposalByEmployeeId(user._id)
             <p>{data.status}</p>
             
             <div class="mb-3 xl:w-96">
-    <select 
+   {data.status == "active" ?  <select 
     onChange={handleChange}
     class="form-select form-select-lg mb-3
       appearance-none
@@ -61,7 +61,7 @@ props.getPurposalByEmployeeId(user._id)
         <option value="25">25%</option>
         <option value="50">50%</option>
         <option value="100">100%</option>
-    </select>
+    </select> : null}
     </div>
 
     <button onClick={()=>updatePercentageHandler(data.job_id,data._id)}>Update</button>

@@ -60,8 +60,9 @@ await form.parse(req, (err, fields, files) => {
 
     if (files.file) {
 
-      // if (files.file.size > 2097152)
-        // return handleError(res, "Image exceeds 2MB limit!", 400);
+      if (files.file.size > 2097152)
+        return res.status(402).json({success:false,status:402,error:"Image is too big",messege:["API is not working"]})
+
 
 
       let data = fs.readFileSync(files.file.filepath);

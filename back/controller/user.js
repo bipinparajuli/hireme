@@ -130,3 +130,20 @@ exports.updateEmployee = (req,res) => {
         console.log(err);
     })
 }
+
+exports.updateEmployerCoin = (req,res) => {
+
+    console.log("COIN",req.body);
+
+    
+    Employer.update(
+        { coin: req.body.coin },
+        { where: { _id: req.profile._id } },
+    ).then(data=>{
+        console.log("Successfully updated");
+    //    return res.status(200).json({success:true,status:200,data:data,messege:["API is working"]})
+        
+    }).catch(err=>{
+        console.log(err);
+    })
+}

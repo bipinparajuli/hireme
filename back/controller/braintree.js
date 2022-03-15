@@ -17,7 +17,7 @@ exports.getToken = (req, res) => {
   });
 };
 
-exports.processPayment = (req, res) => {
+exports.processPayment = (req, res,next) => {
   const nonceFromTheClient = req.body.paymentMethodNonce;
   const amount = req.body.amount;
 
@@ -31,7 +31,10 @@ exports.processPayment = (req, res) => {
     },
     function (err, result) {
       if (err) return handleError(res, 500, "Payment Gateway Error!");
-      else return res.json(result);
+      else{
+        res.json(result);
+        next()
+      }  
     }
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import * as Yup from 'yup'
 import { Formik, Form,ErrorMessage,FieldArray,Field } from "formik";
 
@@ -13,7 +13,7 @@ import { getUserData } from '../helpers/Session';
 
 const JobValidationSchema = Yup.object().shape({
   name: Yup.string().required("Please enter job title"),
-  description: Yup.string().required("Please enter a password").min(8).max(255),
+  description: Yup.string().required("Please enter a description").min(8).max(255),
   budget:Yup.number().required("Budget is required"),
   skills:Yup.array().required("Skills are required")
 
@@ -41,11 +41,26 @@ const PostJob = (props) => {
 
   }
 
+  useEffect(()=>{
+    if(hasSuccess){
+      props.resetStateHandler()
+      setTimeout(()=>{
+      return <Success message="Posted Successfully" />
+       
+      },1000)
+    }
+    if(hasError){
+      props.resetStateHandler()
+      return <Error message="Failed to post job" />
+    }
+
+  },[hasError,hasSuccess])
+
   console.log(hasSuccess,hasError);
 
   return (
     <main className="main bg-white px-6 md:px-16 py-6 mb-10">
-    <div className="w-full max-w-xl mx-auto">
+    <div className="w-full max-w-xl mx-auto border-slate-400">
     <Formik
             enableReinitialize
             initialValues={{
@@ -68,16 +83,7 @@ const PostJob = (props) => {
                 <>
                   <Form encType='multipart/form-data'>
         <h1 className="text-2xl mb-2">Post new job</h1>
-        {
-                        hasError && (
-                          <Error message="Job Posting Failed" />
-                        )
-                      }
-                      {
-                        hasSuccess && (
-                          <Success />
-                        )
-                      }
+        
         
         <div className="job-info border-b-2 py-2 mb-5">
           <div className="mb-4">
