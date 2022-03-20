@@ -61,6 +61,7 @@ import {
           ...action.data,
           isFetching: false,
           hasSuccess:false,
+          errorMessage:action.data.errorMessage
 
 
         };

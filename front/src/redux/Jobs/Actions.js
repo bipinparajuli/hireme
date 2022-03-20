@@ -70,7 +70,7 @@ import {
           dispatch({
             type: POSTJOB_FAILURE,
             data: {
-              errorMessage: result.msg,
+              errorMessage: result.error,
             }
           })
         }
@@ -80,7 +80,7 @@ import {
         dispatch({
             type: POSTJOB_FAILURE,
             data: {
-              errorMessage: err.msg,
+              errorMessage: err.error,
             }
           })
       });

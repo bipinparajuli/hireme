@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import * as Yup from 'yup'
 import { Formik, Form,ErrorMessage,FieldArray,Field } from "formik";
+import { useNotifications } from '@mantine/notifications';
 
 // For redux
 import { bindActionCreators } from "redux";
@@ -22,6 +23,7 @@ const JobValidationSchema = Yup.object().shape({
 const user =  getUserData()
 
 const PostJob = (props) => {
+  const notifications = useNotifications();
 
   const {isFetching,hasError,hasSuccess} = props;
 
@@ -44,14 +46,20 @@ const PostJob = (props) => {
   useEffect(()=>{
     if(hasSuccess){
       props.resetStateHandler()
-      setTimeout(()=>{
-      return <Success message="Posted Successfully" />
-       
-      },1000)
+      notifications.showNotification({
+        color:"green",
+        title: 'Success',
+        message: "Job posted successfully",
+      })
     }
     if(hasError){
+      notifications.showNotification({
+        color:"red",
+        title: 'Error',
+        message: props.errorMessage,
+      })
       props.resetStateHandler()
-      return <Error message="Failed to post job" />
+      // return <Error message="Failed to post job" />
     }
 
   },[hasError,hasSuccess])
@@ -59,8 +67,8 @@ const PostJob = (props) => {
   console.log(hasSuccess,hasError);
 
   return (
-    <main className="main bg-white px-6 md:px-16 py-6 mb-10">
-    <div className="w-full max-w-xl mx-auto border-slate-400">
+    <main className="main bg-white px-6 md:px-12 py-6 mb-10">
+    <div style={{display:"flex",justifyContent:"center"}} className="w-full max-w-xl mx-auto px-6 border border-current">
     <Formik
             enableReinitialize
             initialValues={{
@@ -82,7 +90,7 @@ const PostJob = (props) => {
               return (
                 <>
                   <Form encType='multipart/form-data'>
-        <h1 className="text-2xl mb-2">Post new job</h1>
+        <h1 className="text-2xl mb-2 text-center">Post new job</h1>
         
         
         <div className="job-info border-b-2 py-2 mb-5">
@@ -137,9 +145,7 @@ const PostJob = (props) => {
                 </label>
             </div>
         </div>
-        <div className="flex justify-center p-2">
-            <button className="w-full px-4 py-2 text-white bg-blue-500 rounded shadow-xl">Create</button>
-        </div>
+        
     </div>
 </div> 
 
@@ -148,8 +154,8 @@ const PostJob = (props) => {
             <textarea 
             name="description"
             id="description"
-            cols=""
-            rows=""
+            cols="34"
+            rows="2"
             value={formValues.description}
             onChange={(e) =>
                 renderProps.setFieldValue("description", e.target.value)
@@ -227,8 +233,8 @@ const PostJob = (props) => {
         </div>
         
         
-        <div>
-          <button className="bg-teal-500 hover:bg-teal-600 text-white py-2 px-3 mb-10 rounded"
+        <div className='flex justify-center'>
+          <button className="bg-slate-900 text-white py-2 px-3 mb-10 rounded text-center"
            type="submit">
             {isFetching?"Posting ..." :"Post job"}
              </button>

@@ -1,4 +1,6 @@
 import {BrowserRouter,Routes,Route} from 'react-router-dom'
+import { NotificationsProvider } from '@mantine/notifications';
+
 
 import './App.css';
 import Login from './pages/login'
@@ -15,10 +17,13 @@ import Purposal from './pages/Purposal';
 import Profile from './pages/Profile';
 import Wallet from './pages/Wallet';
 import Applications from './pages/Applications';
+import Success from './components/Success';
 
 function App() {
   return (
-    <MainCompoment>
+    <MainCompoment className="prose lg:prose-x">
+       <NotificationsProvider>
+
     <Routes>
       <Route path="/" element={<JobListing />} />
       <Route path="/login" element={<Login />} />
@@ -86,6 +91,8 @@ function App() {
 
 
     </Routes>
+    </NotificationsProvider>
+
     </MainCompoment>
 
   );

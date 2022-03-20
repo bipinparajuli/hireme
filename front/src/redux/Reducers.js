@@ -8,6 +8,8 @@ import Register from "./Register/Reducer";
 import Jobs from "./Jobs/Reducer"
 import Purposal from "./Purposal/Reducer"
 import Wallet from "./Wallet/Reducer"
+import Employer from "./Employer/Reducer"
+
 
 
 
@@ -23,6 +25,7 @@ export default {
   Login,
   Register,
   Purposal,
-  Wallet
+  Wallet,
+  Employer
   // ChangePassword,
 }

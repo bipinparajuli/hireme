@@ -10,6 +10,8 @@ import { getUserData } from "../helpers/Session";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as Actions from "./../redux/Wallet/Actions";
+import * as Action from "./../redux/Employer/Actions";
+
 
 const BraintreeCheckout = (props) => {
   console.log(props);
@@ -83,18 +85,23 @@ const BraintreeCheckout = (props) => {
 
   useEffect(() => {
     getClientToken(userId, token);
+    props.getEmployerById(userId)
   }, []);
 
+  useEffect(() => {
+console.log(props);
+  }, [props]);
   return (
     <div>
       {props.clientToken ? (
         <div class="flex mb-4">
         <div class="w-1/2 bg-gray-400 h-12">
             <h3>Your Available Coins</h3>
-            <p>{coins}</p>
+            <p>{props.employer.coin}</p>
             <h4>Enter the no of coin you want to buy</h4>
             <p>1 coin == 10 usd</p>
             <input
+              className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:border-gray-500"
             onChange={e=>setInfo({...info,coin:e.target.value})}
             
             />
@@ -105,7 +112,7 @@ const BraintreeCheckout = (props) => {
             options={{ authorization: props.clientToken }}
             onInstance={(instance) => (info.instance = instance)}
           />
-          <button className="bg-teal-500 hover:bg-teal-600 text-white py-2 px-3 mb-10 rounded" onClick={onPurchase}>
+          <button className="bg-slate-900 text-white py-2 px-3 mb-10 rounded" onClick={onPurchase}>
             Buy
           </button>
         </div>
@@ -121,11 +128,13 @@ const BraintreeCheckout = (props) => {
 };
 const mapStateToProps = (state) => ({
   ...state.Wallet,
+  ...state.Employer,
+
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    ...bindActionCreators({ ...Actions }, dispatch),
+    ...bindActionCreators({ ...Actions,...Action }, dispatch),
   };
 };
 

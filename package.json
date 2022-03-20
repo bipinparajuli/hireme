@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@mantine/core": "^4.0.6",
+    "@mantine/hooks": "^4.0.6",
+    "install": "^0.13.0",
+    "notifications": "^0.2.0",
+    "npm": "^8.5.5"
+  }
+}

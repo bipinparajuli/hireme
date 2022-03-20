@@ -6,7 +6,7 @@ const MainComponent = ({children}) => {
     <>
     <Navbar />
       {children}
-    <Footer />
+    {/* <Footer /> */}
     </>
 
   )

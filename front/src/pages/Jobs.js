@@ -1,4 +1,7 @@
 import React, { useEffect } from 'react'
+import { useNotifications } from '@mantine/notifications';
+import { Link } from 'react-router-dom';
+
 
 // For redux
 import { bindActionCreators } from "redux";
@@ -10,11 +13,11 @@ import * as SActions from "./../redux/Purposal/Actions";
 import { getUserData } from '../helpers/Session';
 import Error from '../components/Error';
 import Success from '../components/Success';
-import { Link } from 'react-router-dom';
 
 
 
 const Jobs = (props) => {
+  const notifications = useNotifications();
 
   console.log(props);
 
@@ -34,13 +37,22 @@ const Jobs = (props) => {
         props.deleteJob(user._id,jId)
 
     }
-    if(hasSuccess){
-      setTimeout(()=>{
-        props.resetStateHandler()
-        props.getJobById(user._id)
-
-      },1000)
-    }
+    useEffect(()=>{
+      console.log(hasSuccess);
+      if(hasSuccess){
+        notifications.showNotification({
+          color:"green",
+          title: 'Success',
+          message: "Deleted successfully",
+        })
+        setTimeout(()=>{
+          props.resetStateHandler()
+          props.getJobById(user._id)
+  
+        },1000)
+      }
+    },[hasSuccess])
+  
 
     if(jobbyid){
       jobbyid.forEach(element => {
@@ -61,6 +73,8 @@ const Jobs = (props) => {
                           <Success />
                         )
                       } */}
+    <div class="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5">
+
     {
         !jobbyid ? <h1>loading . . . </h1> : jobbyid.length==0?<h1>No Jobs found !!</h1> : jobbyid.map(data=>(
             <div style={{marginBottom:"10%"}} key={data.name} className="max-w-sm rounded overflow-hidden shadow-lg">
@@ -85,6 +99,7 @@ const Jobs = (props) => {
           </div>
         ))
     }
+    </div>
       </>
    
   )

@@ -31,15 +31,24 @@ const Applications = (props) => {
 props.getPurposalByEmployeeId(user._id)
     },[])
   return (<>
-    <div>Applications</div>
+    <h1 className='text-center'> Your Applications Status</h1>
+    <div class="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5">
+
     {
         props.mypurposal.map(data=>(
             <>
+    <div style={{marginBottom:"10%"}} className="max-w-sm rounded overflow-hidden shadow-lg">
+    <div className="font-bold text-xl mb-2">{data.job_description}</div>
+
             <h1>{data.description}</h1>
-            <p>{data.status}</p>
+            {data.status?
+            
+            <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-indigo-100 bg-indigo-700 rounded">{data.status}</span>
+         : ""
+          }
             
             <div class="mb-3 xl:w-96">
-   {data.status == "active" ?  <select 
+   {data.status == "active" ?<>  <select 
     onChange={handleChange}
     class="form-select form-select-lg mb-3
       appearance-none
@@ -61,16 +70,21 @@ props.getPurposalByEmployeeId(user._id)
         <option value="25">25%</option>
         <option value="50">50%</option>
         <option value="100">100%</option>
-    </select> : null}
+    </select> 
+    <button className='bg-slate-900 text-white py-2 px-3 mb-10 rounded text-center' onClick={()=>updatePercentageHandler(data.job_id,data._id)}>Update</button>
+
+    </>
+    : null}
     </div>
 
-    <button onClick={()=>updatePercentageHandler(data.job_id,data._id)}>Update</button>
+    {/* <button className='bg-slate-900 text-white py-2 px-3 mb-10 rounded text-center' onClick={()=>updatePercentageHandler(data.job_id,data._id)}>Update</button> */}
 
-
+</div>
 
             </>
         ))
     }
+    </div>
   </>
 
   )

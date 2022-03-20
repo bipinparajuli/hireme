@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import ImageHelper from '../helpers/ImageHelper'
 import { getUserData } from '../helpers/Session'
@@ -16,24 +16,44 @@ import Success from "../components/Success";
  const Card = ({name,description,skills,budget,jId,handlePurposalRequestAction,isFetching,hasError,hasSuccess,resetStateHandler}) => {
   const [showModal, setShowModal] = React.useState(false);
   const [value, setValue] = React.useState({
-    description:""
+    description:"",
+    job_description:""
   });
 
  const user = getUserData()
 
- function handlePuropsalSubmit(){
-   console.log(user);
-  handlePurposalRequestAction(value,user._id,jId);
+ 
+
+
+function handlePuropsalSubmit(name){
+   if(value.description.length < 10){
+     alert("Minimum 10 character")
+   }else{
+    handlePurposalRequestAction(value,user._id,jId);
+
+   }
  }
-useEffect(()=>{
+
+//  useEffect(()=>{
+//   setValue({...value,job_description:name})
+
+//  },[name])
+console.log(hasSuccess);
+
+useMemo(()=>{
   console.log(hasSuccess);
-  if(hasSuccess){
-    alert("Posting success")
-     setShowModal(!showModal)
+  if(hasSuccess === true){
      resetStateHandler()
+     setTimeout(()=>{
+     setShowModal(false)
+
+     },2000)
+    //  alert("Post success")
+     
     }
     
-    if(hasError){
+    if(hasError === false){
+      console.log(hasError);
       alert("Posting failure")
      setShowModal(false)
       resetStateHandler()
@@ -43,10 +63,12 @@ useEffect(()=>{
 },[hasSuccess,hasError])
 
 
+// setShowModal(false)
 
   
   return (
     <div style={{marginBottom:"10%"}} className="max-w-sm rounded overflow-hidden shadow-lg">
+      
       <ImageHelper
         jobId={jId}
       />
@@ -104,9 +126,10 @@ useEffect(()=>{
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
                 <textarea
+                          required
                           className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                           placeholder="you can talk about your past exerience and how this job match you"
-    onChange={e=>setValue({description:e.target.value})}
+    onChange={e=>setValue({description:e.target.value,job_description:name})}
                           />
                 </div>
                 {/*footer*/}
@@ -121,10 +144,10 @@ useEffect(()=>{
                   <button
                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={handlePuropsalSubmit}
+                    onClick={()=>handlePuropsalSubmit(name)}
                   >
                     
-      {isFetching?' Posting . . . ': 'Submit'}
+      {hasSuccess? 'Success':hasError ? "Error" : isFetching?' Posting . . . ': 'Submit'}
 
                   </button>
                 </div>
@@ -137,6 +160,7 @@ useEffect(()=>{
 
     
     </div>
+
   </div>
   )
 }

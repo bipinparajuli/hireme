@@ -138,9 +138,9 @@ exports.signin = async (req,res)=>{
                             
                             res.cookie("token",token)
             
-                            const {u_name,u_email,_id,u_role} =user
+                            const {u_name,u_email,_id,u_role,coin} =user
             
-                           return res.send({success:true,status:200,data:{u_name,u_email,_id,u_role,token},messege:["Successfully signin"]})
+                           return res.send({success:true,status:200,data:{u_name,u_email,_id,u_role,coin,token},messege:["Successfully signin"]})
                         })
 
     }else{

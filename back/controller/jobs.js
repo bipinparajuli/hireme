@@ -1,6 +1,7 @@
 const Jobs = require("../model/jobs")
 const formidable = require("formidable")
 const fs = require("fs");
+const Employer = require("../model/employer");
 
 
 //finding job by id through parameter
@@ -45,7 +46,7 @@ await form.parse(req, (err, fields, files) => {
     
   if (err) return res.status(400).json({success:false,status:400,error:"Cannot Process Image",messege:["API is not working"]})
 
-    console.log("FILEDS",fields);
+    // console.log("FILEDS",fields);
 
 
     const { name, description, budget,skills } = fields;
@@ -67,7 +68,18 @@ await form.parse(req, (err, fields, files) => {
 
       let data = fs.readFileSync(files.file.filepath);
       // job.file.contentType = files.file.type;
-      console.log("FILE",files.file.size);
+      // console.log("FILE",files.file.size);
+      if(req.profile.coin > budget){
+
+        return res.status(402).json({success:false,status:402,error:"Insufficient coin",messege:["API is not working"]})
+
+      }
+      Employer.update({coin:req.profile.coin - budget},
+        {where:{_id:req.profile._id}}).then(data=>{
+          console.log("Update Success",data);
+        }).catch(err=>{
+          console.log("error",err);
+        })  
 
       Jobs.create({
             name,

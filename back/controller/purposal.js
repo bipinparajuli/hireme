@@ -5,10 +5,13 @@ const Purposal = require("../model/Purposal")
 //posting purposal for job
 exports.postPurposal = (req,res,next) => {
 
-    const {description} =  req.body
+    const {description,job_description} =  req.body
  
+    console.log(description,job_description);
+
     Purposal.create({
         description,
+        job_description,
         employee_no:req.profile._id,
         job_id:req.job._id,
         applied_by:req.profile.u_name
