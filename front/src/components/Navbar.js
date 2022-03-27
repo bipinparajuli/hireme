@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Transition } from "@headlessui/react";
 import {Link, Navigate} from 'react-router-dom'
 import { deleteSession, hasToken,getUserData } from "../helpers/Session";
+import { useNotifications } from '@mantine/notifications';
 
 // For redux
 import { bindActionCreators } from "redux";
@@ -11,8 +12,19 @@ import * as Actions from "./../redux/Login/Actions";
 function Nav(props) {
   const [isOpen, setIsOpen] = useState(false);
   const { isAuthenticated, logoutHandler} = props
+  const notifications = useNotifications();
+
 
   let user = getUserData()
+
+  function handleLogout(){
+    notifications.showNotification({
+      color:"green",
+      title: 'Success',
+      message: "Logout successfully",
+    })
+    logoutHandler()
+  }
 
   return (
     <div>
@@ -60,18 +72,19 @@ function Nav(props) {
                 >
                   View Application
                 </Link>:null:null
-}
+}{
+  isAuthenticated?
                   <Link
                     to="/wallet"
                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Wallet
-                  </Link>
+                  </Link> : null}
 
                  { isAuthenticated? 
                   <Link
                   to="/"
-                  onClick={logoutHandler}
+                  onClick={handleLogout}
                   className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
                   Logout
@@ -176,18 +189,18 @@ function Nav(props) {
                   View Application
                 </Link>
 
-                <Link
+               {isAuthenticated? <Link
                     to="/wallet"
                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Wallet
-                  </Link>
+                  </Link> :null}
 
                 { isAuthenticated? 
                   <Link
                 
                   to="/"
-                  onClick={logoutHandler}
+                  onClick={handleLogout}
 
                   className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >

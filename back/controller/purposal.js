@@ -113,8 +113,21 @@ exports.updatePurposalStatus = (req,res) => {
         job_id: req.job._id,
         status: 'pending'
       }})
+console.log("paymnet",req.payment);
+      if(req.payment){
+        Purposal.update({status:"completed"},
+        {where:{_id:req.purposal._id}}).then(data=>{
+          console.log("Update Success",data);
+        return res.status(200).json({success:true,status:200,data:data,messege:["API is working"]})
 
-    Purposal.update({status:"active"},
+        }).catch(err=>{
+          console.log("error",err);
+          return res.json({success:false,status:404,error:err,messege:["API is not working"]})
+
+        })
+      }
+else{
+  Purposal.update({status:"active"},
         {where:{_id:req.purposal._id}}).then(data=>{
           console.log("Update Success",data);
         return res.status(200).json({success:true,status:200,data:data,messege:["API is working"]})
@@ -124,6 +137,8 @@ exports.updatePurposalStatus = (req,res) => {
           return res.json({success:false,status:404,error:err,messege:["API is not working"]})
 
         })  
+}
+  
 }
 
 //UPDATE ONGOING PERCENTAGE

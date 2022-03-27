@@ -8,7 +8,11 @@ import {
      GETEMPLOYEEID_SUCCESS,
      GETPURPOSALBYEMPLOYEE_FAILURE,
      GETPURPOSALBYEMPLOYEE_SUCCESS,
-     RESET_PURPOSAL_PARAMS
+     RESET_PURPOSAL_PARAMS,
+     UPDATEONGOINGPERCENTAGE_FAILURE,
+     UPDATEONGOINGPERCENTAGE_SUCCESS,
+     UPDATEPURPOSAL_SUCCESS,
+     UPDATEPURPOSAL_FAILURE
   } from './Constants';
   
   const initialState = {
@@ -41,6 +45,50 @@ import {
           ...state,
           hasError: true,
           ...action.data,
+          isFetching: false,
+          // hasSuccess:false,
+
+
+        };
+        case UPDATEONGOINGPERCENTAGE_FAILURE:  
+        return {
+          ...state,
+          errorMessage: '',
+        //   jobs: action.data,
+          isFetching: false,
+          hasError:true,
+          errorMessage:action.data.errorMessage
+          // hasError: false,
+
+
+        };
+      case UPDATEONGOINGPERCENTAGE_SUCCESS:
+        return {
+          ...state,
+          hasSuccess:true,
+          ...action.data,
+          isFetching: false,
+          // hasSuccess:false,
+
+
+        };
+        case UPDATEPURPOSAL_SUCCESS:  
+        return {
+          ...state,
+          errorMessage: '',
+        //   jobs: action.data,
+          isFetching: false,
+          hasSuccess:true,
+          errorMessage:action.data.errorMessage
+          // hasError: false,
+
+
+        };
+      case UPDATEPURPOSAL_FAILURE:
+        return {
+          ...state,
+          ...action.data,
+          hasError:true,
           isFetching: false,
           // hasSuccess:false,
 

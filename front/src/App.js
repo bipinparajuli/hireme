@@ -21,8 +21,9 @@ import Success from './components/Success';
 
 function App() {
   return (
+    <NotificationsProvider>
+
     <MainCompoment className="prose lg:prose-x">
-       <NotificationsProvider>
 
     <Routes>
       <Route path="/" element={<JobListing />} />
@@ -41,9 +42,9 @@ function App() {
         <Route
           path="/wallet"
           element={
-            <Employer>
+            // <Employer>
               <Wallet />
-            </Employer>
+            // </Employer>
           }
         />
         <Route
@@ -91,9 +92,10 @@ function App() {
 
 
     </Routes>
-    </NotificationsProvider>
 
     </MainCompoment>
+    </NotificationsProvider>
+
 
   );
 }

@@ -1,4 +1,5 @@
 const braintree = require("braintree");
+const Employee = require("../model/employee");
 
 const { handleError } = require("../utils/handleResponse");
 
@@ -38,3 +39,19 @@ exports.processPayment = (req, res,next) => {
     }
   );
 };
+
+exports.payNow = (req,res,next) =>{
+  console.log(req.profile.coin,req.job.budget);
+  Employee.update(
+    { coin: parseInt(req.profile.coin) + req.job.budget },
+    { where: { _id: req.profile._id } },
+).then(data=>{
+  req.payment = true
+    console.log("Successfully updated",req.payment);
+    next();
+  //  return res.status(200).json({success:true,status:200,data:data,messege:["API is working"]})
+    
+}).catch(err=>{
+    console.log(err);
+})
+}

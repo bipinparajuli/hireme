@@ -2,6 +2,8 @@ import React from "react";
 import {Link,Navigate} from 'react-router-dom'
 import * as Yup from 'yup'
 import { Formik, Form,ErrorMessage } from "formik";
+import { Loader } from '@mantine/core';
+import { useNotifications } from '@mantine/notifications';
 
 // For redux
 import { bindActionCreators } from "redux";
@@ -20,6 +22,8 @@ const LoginValidationSchema = Yup.object().shape({
 
 
  function Login(props) {
+  const notifications = useNotifications();
+
 
   console.log(props);
 
@@ -31,12 +35,24 @@ const LoginValidationSchema = Yup.object().shape({
 
   }
   if(hasSuccess){
+    notifications.showNotification({
+      color:"green",
+      title: 'Success',
+      message: "Login successfully",
+    })
+    props.resetStateHandler()
+
     return (
       <Navigate to="/" />
     )
   }
 
   if(hasError){
+    notifications.showNotification({
+      color:"red",
+      title: 'Error',
+      message: "Login failed",
+    })
     setTimeout(()=>{
       props.resetStateHandler()
     },1000)
@@ -196,7 +212,9 @@ const LoginValidationSchema = Yup.object().shape({
                           type="submit"
                           style={{ transition: "all .15s ease" }}
                         >
-                         {isFetching? "Signing . . ." : "Sign in" }
+                         {isFetching? 
+                         <Loader />
+                         : "Sign in" }
                         </button>
                       </div>
                       </Form>

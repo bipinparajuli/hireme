@@ -14,7 +14,9 @@ import {
     UPDATEPURPOSAL_SUCCESS,
     UPDATEONGOINGPERCENTAGE_FAILURE,
     UPDATEONGOINGPERCENTAGE_SUCCESS,
-    RESET_PURPOSAL_PARAMS
+    RESET_PURPOSAL_PARAMS,
+    PAYMENT_SUCCESS,
+    PAYMENT_FAILURE
 
   } from './Constants';
   
@@ -214,7 +216,10 @@ console.log(payload);
 
 
   export const updatePurposalStatus = (jid,pid) => dispatch => {
-            
+    dispatch({
+      type:PURPOSAL_REQUEST,
+      data:{}
+  })
         api.post(`updatepurposalstatus/${jid}/${pid}`,)
           .then((result) => {
             console.log(result)
@@ -285,6 +290,39 @@ console.log(payload);
           });
       }
 
+      export const payNow = (employeeId,jId,pid) => dispatch => {
+        // console.log(payload);
+        api.post(`paynow/${employeeId}/${jId}/${pid}`)
+          .then((result) => {
+            console.log(result)
+            if(result.success) {
+                // id=result.data._id
+              dispatch({
+                type: PAYMENT_SUCCESS,
+                data: result.data
+              })
+      
+            } else {
+              
+              dispatch({
+                type: PAYMENT_FAILURE,
+                data: {
+                  errorMessage: result.error,
+                }
+              })
+            }
+          })
+          .catch((err) => {
+            console.log('err', err);
+            dispatch({
+              type: PAYMENT_FAILURE,
+              data: {
+                errorMessage: err.error,
+              }
+            })
+          });
+      }
+    
       
       export const resetStateHandler = () => dispatch => {
         dispatch({

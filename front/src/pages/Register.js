@@ -1,6 +1,7 @@
 import React from "react";
 import * as Yup from 'yup'
 import { Formik, Form,ErrorMessage,FieldArray,Field } from "formik";
+import { useNotifications } from '@mantine/notifications';
 
 // For redux
 import { bindActionCreators } from "redux";
@@ -25,6 +26,8 @@ const LoginValidationSchema = Yup.object().shape({
 
  function Register(props) {
    console.log(props)
+  const notifications = useNotifications();
+
 
    const {isFetching,hasSuccess,hasError,errorMessage,resetRegisterStateHandler} = props
 
@@ -36,6 +39,11 @@ const LoginValidationSchema = Yup.object().shape({
   }
 
   if(hasSuccess){
+    notifications.showNotification({
+      color:"red",
+      title: 'Success',
+      message: "Registered Successs",
+    })
     setTimeout(()=>{
       resetRegisterStateHandler()
     },1000)

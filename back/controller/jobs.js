@@ -69,7 +69,7 @@ await form.parse(req, (err, fields, files) => {
       let data = fs.readFileSync(files.file.filepath);
       // job.file.contentType = files.file.type;
       // console.log("FILE",files.file.size);
-      if(req.profile.coin > budget){
+      if(req.profile.coin < budget){
 
         return res.status(402).json({success:false,status:402,error:"Insufficient coin",messege:["API is not working"]})
 

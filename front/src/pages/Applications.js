@@ -1,5 +1,18 @@
 import React, { useEffect,useState } from 'react'
 
+import { useNotifications } from '@mantine/notifications';
+import { Loader } from '@mantine/core';
+import {
+  Avatar,
+  Badge,
+  Table,
+  Group,
+  Text,
+  ActionIcon,
+  Anchor,
+  ScrollArea,
+  useMantineTheme,
+} from '@mantine/core';
 
 // For redux
 import { bindActionCreators } from "redux";
@@ -8,7 +21,9 @@ import * as Actions from "./../redux/Purposal/Actions";
 import { getUserData } from '../helpers/Session';
 
 const Applications = (props) => {
-  console.log(props);
+  const notifications = useNotifications();
+
+  // console.log(props);
     let user = getUserData();
     const [state,setState]=useState({
       ongoing_percentage:""
@@ -28,26 +43,70 @@ const Applications = (props) => {
     }
 
     useEffect(()=>{
+      if(props.hasSuccess){
+        notifications.showNotification({
+          color:"green",
+          title: 'Success',
+          message: "Updated successfully",
+        })
+        props.resetStateHandler()
+      }
+      if(props.hasError){
+        notifications.showNotification({
+          color:"red",
+          title: 'Error',
+          message: props.errorMessage,
+        })
+        props.resetStateHandler()
+
+      }
+    },[props.hasError,props.hasSuccess])
+
+    useEffect(()=>{
 props.getPurposalByEmployeeId(user._id)
     },[])
   return (<>
     <h1 className='text-center'> Your Applications Status</h1>
-    <div class="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5">
-
+    {/* <div class="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5"> */}
+    <ScrollArea>
+      <Table sx={{ minWidth: 800 }} verticalSpacing="sm">
+        <thead>
+          <tr>
+            <th>Job title</th>
+            <th>Purposal description</th>
+            <th>Status</th>
+            <th>Phone</th>
+            <th />
+          </tr>
+        </thead>
+        <tbody>
     {
         props.mypurposal.map(data=>(
             <>
-    <div style={{marginBottom:"10%"}} className="max-w-sm rounded overflow-hidden shadow-lg">
-    <div className="font-bold text-xl mb-2">{data.job_description}</div>
+          <tr>
+<td>
+<Text size="sm" weight={500}>
+{data.job_description}
+</Text>
+</td>
 
-            <h1>{data.description}</h1>
-            {data.status?
+<td>
+<Text size="sm" weight={500}>
+{data.description}
+</Text>
+</td>
+
+<td>
+{data.status?
             
             <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-indigo-100 bg-indigo-700 rounded">{data.status}</span>
          : ""
           }
+</td>
+   
+        
             
-            <div class="mb-3 xl:w-96">
+            <td>
    {data.status == "active" ?<>  <select 
     onChange={handleChange}
     class="form-select form-select-lg mb-3
@@ -71,20 +130,27 @@ props.getPurposalByEmployeeId(user._id)
         <option value="50">50%</option>
         <option value="100">100%</option>
     </select> 
+    {
+      props.isFetching !== true?
     <button className='bg-slate-900 text-white py-2 px-3 mb-10 rounded text-center' onClick={()=>updatePercentageHandler(data.job_id,data._id)}>Update</button>
+:<Loader />
+    }
 
     </>
     : null}
-    </div>
+    </td>
+    </tr>
 
     {/* <button className='bg-slate-900 text-white py-2 px-3 mb-10 rounded text-center' onClick={()=>updatePercentageHandler(data.job_id,data._id)}>Update</button> */}
 
-</div>
 
             </>
         ))
     }
-    </div>
+    </tbody>
+    </Table>
+    </ScrollArea>
+    {/* </div> */}
   </>
 
   )

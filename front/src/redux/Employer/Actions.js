@@ -40,3 +40,39 @@ import {
         })
       });
   }
+
+
+  export const getEmployeeById = (payload) => dispatch => {
+    console.log(payload);
+    api.get(`getEmployee/${payload}`, { data: payload })
+      .then((result) => {
+        console.log(result)
+        if(result.success) {
+            // id=result.data._id
+          dispatch({
+            type: GETEMPLOYERBYID_SUCCESS,
+            data: result.data
+          })
+  
+        } else {
+          
+          dispatch({
+            type: GETEMPLOYERBYID_FAILURE,
+            data: {
+              errorMessage: result.error,
+            }
+          })
+        }
+      })
+      .catch((err) => {
+        console.log('err', err);
+        dispatch({
+          type: GETEMPLOYERBYID_FAILURE,
+          data: {
+            errorMessage: err.error,
+          }
+        })
+      });
+  }
+
+  
