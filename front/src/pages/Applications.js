@@ -50,6 +50,8 @@ const Applications = (props) => {
           message: "Updated successfully",
         })
         props.resetStateHandler()
+props.getPurposalByEmployeeId(user._id)
+
       }
       if(props.hasError){
         notifications.showNotification({
@@ -58,6 +60,8 @@ const Applications = (props) => {
           message: props.errorMessage,
         })
         props.resetStateHandler()
+props.getPurposalByEmployeeId(user._id)
+
 
       }
     },[props.hasError,props.hasSuccess])
@@ -100,7 +104,9 @@ props.getPurposalByEmployeeId(user._id)
 {data.status?
             
             <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-indigo-100 bg-indigo-700 rounded">{data.status}</span>
-         : ""
+         : 
+         <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-indigo-100 bg-indigo-700 rounded">Pending</span>
+
           }
 </td>
    
@@ -132,7 +138,9 @@ props.getPurposalByEmployeeId(user._id)
     </select> 
     {
       props.isFetching !== true?
-    <button className='bg-slate-900 text-white py-2 px-3 mb-10 rounded text-center' onClick={()=>updatePercentageHandler(data.job_id,data._id)}>Update</button>
+    <button 
+    style={{ transition: "all .15s ease",backgroundColor:"#B6E2E1" }}
+    className='bg-slate-900 text-white py-2 px-3 mb-10 rounded text-center' onClick={()=>updatePercentageHandler(data.job_id,data._id)}>Update</button>
 :<Loader />
     }
 

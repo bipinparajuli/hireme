@@ -24,7 +24,7 @@ const JobListing = (props) => {
     <Landing />
     <div style={{marginBottom:"10%"}}>
 
-    <h2 className='text-center'>Popular Jobs for you</h2>
+    <h2 className='text-center text-3xl font-bold leading-tight'>Popular Jobs for you</h2>
     <div class="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5">
     {
     !jobs ? <h1>loading . . . </h1> : jobs.length==0?<h1>No Jobs found !!</h1> : jobs.map(data=>{

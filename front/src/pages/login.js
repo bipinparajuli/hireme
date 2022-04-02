@@ -1,16 +1,18 @@
-import React from "react";
-import {Link,Navigate} from 'react-router-dom'
+import React,{useEffect} from "react";
+import {Link,useNavigate} from 'react-router-dom'
 import * as Yup from 'yup'
 import { Formik, Form,ErrorMessage } from "formik";
 import { Loader } from '@mantine/core';
 import { useNotifications } from '@mantine/notifications';
+import { FaEye } from 'react-icons/fa';
+
 
 // For redux
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as Actions from "./../redux/Login/Actions";
 
-
+import loginsvg from '../assets/login.png'
 import Error from "../components/Error";
 import Success from "../components/Success";
 
@@ -22,7 +24,14 @@ const LoginValidationSchema = Yup.object().shape({
 
 
  function Login(props) {
+  let navigate = useNavigate();
   const notifications = useNotifications();
+  const [hidepassword, setHidepassword] = React.useState({
+    password: "",
+    showPassword: false,
+  });
+
+  const { showPassword } = hidepassword;
 
 
   console.log(props);
@@ -34,29 +43,32 @@ const LoginValidationSchema = Yup.object().shape({
     props.handleLoginRequestAction(values);
 
   }
-  if(hasSuccess){
-    notifications.showNotification({
-      color:"green",
-      title: 'Success',
-      message: "Login successfully",
-    })
-    props.resetStateHandler()
 
-    return (
-      <Navigate to="/" />
-    )
-  }
-
-  if(hasError){
-    notifications.showNotification({
-      color:"red",
-      title: 'Error',
-      message: "Login failed",
-    })
-    setTimeout(()=>{
+  useEffect(()=>{
+    if(hasSuccess){
+      notifications.showNotification({
+        color:"green",
+        title: 'Success',
+        message: "Login successfully",
+      })
       props.resetStateHandler()
-    },1000)
-  }
+  navigate("/",{replace:true})
+      
+    }
+  
+    if(hasError){
+      notifications.showNotification({
+        color:"red",
+        title: 'Error',
+        message: "Login failed",
+      })
+      setTimeout(()=>{
+        props.resetStateHandler()
+      },1000)
+    }
+  },[hasError,hasSuccess])
+
+
 
   console.log(isFetching);
 
@@ -75,42 +87,12 @@ const LoginValidationSchema = Yup.object().shape({
           ></div>
           <div className="container mx-auto px-4 h-full">
             <div className="flex content-center items-center justify-center h-full">
-              <div className="w-full lg:w-4/12 px-4">
-                <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-300 border-0">
-                  {/* <div className="rounded-t mb-0 px-6 py-6">
-                    <div className="text-center mb-3">
-                      <h6 className="text-gray-600 text-sm font-bold">
-                        Sign in with
-                      </h6>
-                    </div>
-                    <div className="btn-wrapper text-center">
-                      <button
-                        className="bg-white active:bg-gray-100 text-gray-800 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs"
-                        type="button"
-                        style={{ transition: "all .15s ease" }}
-                      >
-                        <img
-                          alt="..."
-                          className="w-5 mr-1"
-                          src={require("../assets/github.svg").default}
-                        />
-                        Github
-                      </button>
-                      <button
-                        className="bg-white active:bg-gray-100 text-gray-800 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs"
-                        type="button"
-                        style={{ transition: "all .15s ease" }}
-                      >
-                        <img
-                          alt="..."
-                          className="w-5 mr-1"
-                          src={require("../assets/google.svg").default}
-                        />
-                        Google
-                      </button>
-                    </div>
-                    <hr className="mt-6 border-b-1 border-gray-400" />
-                  </div> */}
+              <div style={{}} className="flex px-4">
+                <div style={{backgroundColor:"#E0CFB1"}}>
+                  <img  src={loginsvg} />
+                </div>
+                <div className="relative flex flex-col min-w-0 break-words w-full shadow-lg rounded-lg bg-gray-300 border-0">
+                 
                   <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
                     <div className="text-gray-500 text-center mb-3 font-bold">
                       <strong>Sign in</strong>
@@ -163,8 +145,12 @@ const LoginValidationSchema = Yup.object().shape({
                         >
                           Password
                         </label>
+                        <div
+                        style={{display:"flex"}}
+                        >
+
                         <input
-                          type="password"
+                            type={hidepassword.showPassword ? "text" : "password"}
                           className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                           placeholder="Password"
                           style={{ transition: "all .15s ease" }}
@@ -173,23 +159,35 @@ const LoginValidationSchema = Yup.object().shape({
                             renderProps.setFieldValue("u_password", e.target.value)
                           }
                         />
+                          <FaEye
+                          onClick={()=>setHidepassword({...hidepassword,showPassword:!showPassword})}
+                            class="eye fa-solid fa-eye-slash"
+                            style={{position:"relative",right:"40"}}
+                            />
+                        </div>
+
+  {/* </i> */}
+
                       <ErrorMessage name="u_password" render={msg => <div style={{color:"red"}}>{msg}</div>} />
 
                       </div>
                       <div className="flex justify-center">
-                        <div className="form-check form-check-inline">
+                        <div 
+                          style={{marginRight:"20px"}}
+                         className="form-check form-check-inline">
                           <input 
                           className="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                            type="radio"
                           name="inlineRadioOptions"
                           id="inlineRadio1"
-                           value="Employer"
+                          value="Employer"
                            onChange={(e) =>
                             renderProps.setFieldValue("u_role", e.target.value)
                           }
 
                             />
-                          <label className="form-check-label inline-block text-gray-800" htmlFor="inlineRadio10">Employer</label>
+                          <label className="form-check-label inline-block text-gray-800"
+                           htmlFor="inlineRadio1">Employer</label>
                         </div>
                         <div className="form-check form-check-inline">
                           <input
@@ -203,17 +201,21 @@ const LoginValidationSchema = Yup.object().shape({
                           }
                            
                            />
-                          <label className="form-check-label inline-block text-gray-800" htmlFor="inlineRadio20">Employee</label>
+                          <label className="form-check-label inline-block text-gray-800"
+                           htmlFor="inlineRadio2">Employee</label>
                         </div>
                       </div>
                       <div className="text-center mt-6">
                         <button
                           className="bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full"
                           type="submit"
-                          style={{ transition: "all .15s ease" }}
+                          style={{ transition: "all .15s ease",backgroundColor:"#B6E2E1" }}
+
                         >
                          {isFetching? 
-                         <Loader />
+                         <Loader
+                         style={{position:"relative",left:"200px"}}
+                         />
                          : "Sign in" }
                         </button>
                       </div>

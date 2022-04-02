@@ -5,68 +5,34 @@ const Landing = () => {
     
   return (
   <>
- {/* <nav id="header" className="fixed w-full z-30 top-0 text-white">
-      <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
-        <div className="pl-4 flex items-center">
-          <a className="toggleColour text-white no-underline hover:no-underline font-bold text-2xl lg:text-4xl" href="#">
-            <svg className="h-8 fill-current inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512.005 512.005">
-              <rect fill="#2a2a31" x="16.539" y="425.626" width="479.767" height="50.502" transform="matrix(1,0,0,1,0,0)" />
-              <path
-                className="plane-take-off"
-                d=" M 510.7 189.151 C 505.271 168.95 484.565 156.956 464.365 162.385 L 330.156 198.367 L 155.924 35.878 L 107.19 49.008 L 211.729 230.183 L 86.232 263.767 L 36.614 224.754 L 0 234.603 L 45.957 314.27 L 65.274 347.727 L 105.802 336.869 L 240.011 300.886 L 349.726 271.469 L 483.935 235.486 C 504.134 230.057 516.129 209.352 510.7 189.151 Z "
-              />
-            </svg>
-            LANDING
-          </a>
-        </div>
-        <div className="block lg:hidden pr-4">
-          <button id="nav-toggle" className="flex items-center p-1 text-pink-800 hover:text-gray-900 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-            <svg className="fill-current h-6 w-6" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <title>Menu</title>
-              <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-            </svg>
-          </button>
-        </div>
-        <div className="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden mt-2 lg:mt-0 bg-white lg:bg-transparent text-black p-4 lg:p-0 z-20" id="nav-content">
-          <ul className="list-reset lg:flex justify-end flex-1 items-center">
-            <li className="mr-3">
-              <a className="inline-block py-2 px-4 text-black font-bold no-underline" href="#">Active</a>
-            </li>
-            <li className="mr-3">
-              <a className="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4" href="#">link</a>
-            </li>
-            <li className="mr-3">
-              <a className="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4" href="#">link</a>
-            </li>
-          </ul>
-          <button
-            id="navAction"
-            className="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full mt-4 lg:mt-0 py-4 px-8 shadow opacity-75 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
-          >
-            Action
-          </button>
-        </div>
-      </div>
-      <hr className="border-b border-gray-100 opacity-25 my-0 py-0" />
-    </nav> */}
-
-    <div className="pt-24" style={{background:"linear-gradient(90deg, #d53369 0%, #daae51 100%)"}}>
+    <div className="pt-24 flex items-center" style={{height:"500px",
+    background:"linear-gradient(105.8deg, rgba(255, 243, 229, 0.64) 0%, rgba(182, 226, 225, 0.84) 100%)"}}>
     <div className="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
-      <div className="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left">
+      <div className="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left" style={{marginLeft:"85px"}} >
         <p className="uppercase tracking-loose w-full">What business are you?</p>
-        <h1 className="my-4 text-5xl font-bold leading-tight">
+        <h1 className="my-4 text-4xl font-bold leading-tight">
           Let's Convert Your Idea Into Products
         </h1>
-        <p className="leading-normal text-2xl mb-8">
-          Trusted by millions by developers and business accross the globe
-        </p>
-        <button className="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-          Join Now
+        <div class="pt-2 relative text-gray-600">
+        <input class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+          type="search" name="search" placeholder="Search" />
+        <button type="submit" class="absolute right-0 top-0 mt-5 mr-4">
+          <svg class="text-gray-600 h-4 w-4 fill-current"
+            // xmlns="http://www.w3.org/2000/svg"
+            // xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
+            viewBox="0 0 56.966 56.966"
+             style={{enableBackground:"new 0 0 56.966 56.966"}} 
+            //  xml:space="preserve"
+            width="512px" height="512px">
+            <path
+              d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
+          </svg>
         </button>
       </div>
-      <div className="w-full md:w-3/5 py-6 text-center">
-        <img className="w-full md:w-4/5 z-50" src={Hero} />
       </div>
+      {/* <div className="w-full md:w-3/5 py-6 text-center">
+        <img className="w-full md:w-4/5 z-50" src={Hero} />
+      </div> */}
     </div>
   </div>
 

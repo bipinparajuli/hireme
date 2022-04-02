@@ -28,7 +28,7 @@ function Nav(props) {
 
   return (
     <div>
-      <nav className="bg-gray-800">
+      <nav className="bg-navbarbg" >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">

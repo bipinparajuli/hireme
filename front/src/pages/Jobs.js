@@ -13,15 +13,16 @@ import * as SActions from "./../redux/Purposal/Actions";
 import { getUserData } from '../helpers/Session';
 import Error from '../components/Error';
 import Success from '../components/Success';
+import ImageHelper from '../helpers/ImageHelper';
 
 
 
 const Jobs = (props) => {
   const notifications = useNotifications();
 
-  console.log(props);
 
     const {jobbyid,isFetching,hasSuccess,hasError} = props
+    console.log(props,isFetching);
   
     const user =  getUserData()
 
@@ -30,7 +31,6 @@ const Jobs = (props) => {
         props.getJobById(user._id)
     },[])
 
-    console.log(jobbyid,hasSuccess)
     // deleteJob
 
     function handleDeleteJob (jId){
@@ -73,12 +73,33 @@ const Jobs = (props) => {
                           <Success />
                         )
                       } */}
+
+                      <div 
+                      style={{display:"flex",
+                      flexDirection:"column",
+                      justifyContent:"center",
+                      alignItems:"center",
+                      height:"300px",
+                      background: "linear-gradient(105.8deg, rgba(255, 243, 229, 0.64) 6.37%, rgba(255, 243, 229, 0.64) 11.01%, rgba(182, 226, 225, 0.71) 96.5%)"
+                    }}
+                      >
+                          <h1 className="my-4 text-4xl font-bold leading-tight">
+                            My Projects                          
+                          </h1>
+                         <p style={{width:"400px"}} className="tracking-loose">
+                            View your job advertisement here with the number of applicants. Also delete the unwanted jobs. 
+                          </p>
+
+                      </div>
     <div class="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5">
 
     {
         !jobbyid ? <h1>loading . . . </h1> : jobbyid.length==0?<h1>No Jobs found !!</h1> : jobbyid.map(data=>(
             <div style={{marginBottom:"10%"}} key={data.name} className="max-w-sm rounded overflow-hidden shadow-lg">
             <div className="px-6 py-4">
+              <ImageHelper 
+                  jobId={data._id}
+              />
               <div className="font-bold text-xl mb-2">
                   {data.name}
                 </div>
@@ -91,7 +112,9 @@ const Jobs = (props) => {
               </p>
             </div>
             <div className="px-6 pt-4 pb-2">
-              <button  onClick={()=>handleDeleteJob(data._id)} class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
+              <button  
+              style={{ transition: "all .15s ease",backgroundColor:"#B6E2E1" }}
+              onClick={()=>handleDeleteJob(data._id)} class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
                 <span>{isFetching?"Deleteing...":'Delete'}</span>
                </button>
               
@@ -107,7 +130,7 @@ const Jobs = (props) => {
 
 const mapStateToProps = (state) => ({
     ...state.Jobs,
-    ...state.Purposal
+    // ...state.Purposal
   });
   
   const mapDispatchToProps = (dispatch) => {

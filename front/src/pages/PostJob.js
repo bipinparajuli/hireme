@@ -67,8 +67,14 @@ const PostJob = (props) => {
   console.log(hasSuccess,hasError);
 
   return (
-    <main className="main bg-white px-6 md:px-12 py-6 mb-10">
-    <div style={{display:"flex",justifyContent:"center"}} className="w-full max-w-xl mx-auto px-6 border border-current">
+    <main 
+    style={{background: "linear-gradient(181.93deg, rgba(96, 231, 228, 0.2) -6.92%, rgba(248, 234, 214, 0.182) 98.37%)"}}
+    className="main bg-white px-6 md:px-12 py-6 mb-10">
+    <div style=
+    {{display:"flex",
+    background: "rgba(255, 243, 229, 0.64)",
+    border: "1px solid #E0CFB1",
+    justifyContent:"center"}} className="w-full max-w-xl mx-auto px-6 border border-current">
     <Formik
             enableReinitialize
             initialValues={{
@@ -111,7 +117,72 @@ const PostJob = (props) => {
         <ErrorMessage name="name" render={msg => <div style={{color:"red"}}>{msg}</div>} />
 
           </div>
+          <div>
+            <label for="description" className="block text-gray-700 text-sm mb-2">Description</label>
+            <textarea 
+            name="description"
+            id="description"
+            cols="34"
+            rows="2"
+            value={formValues.description}
+            onChange={(e) =>
+                renderProps.setFieldValue("description", e.target.value)
+              }
+            >
 
+            </textarea>
+        <ErrorMessage name="description" render={msg => <div style={{color:"red"}}>{msg}</div>} />
+
+          </div>
+
+          {/* //field  */}
+          <h6>Add Skills</h6>
+        <FieldArray
+          name="skills"
+          render={(arrayHelpers) => (
+            <div>
+              {formValues.skills && formValues.skills.length > 0 ? (
+                formValues.skills.map((item, index) => (
+                  <div key={index}>
+                    <Field
+                      // component={TextField}
+                      className="border-5 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
+                      variant="outlined"
+                      fullWidth
+                      label="skill"
+                      placeholder="eg. react, angular"
+                      name={`skills.${index}.skill`}
+                    />
+                   
+                    <button
+                      type="button"
+                    className="mr-4"
+                      onClick={() => arrayHelpers.remove(index)} // remove an item from the list
+                    >
+                      -
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        arrayHelpers.insert(index, { skill: "" })
+                      } // insert an empty item at a position
+                    >
+                      +
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => arrayHelpers.push({ skill: "" })}
+                >
+                  {/* show this when user has removed all items from the list */}
+                  Add item
+                </button>
+              )}
+            </div>
+          )}
+        />
         
 
           <div className="flex justify-center mt-8">
@@ -149,77 +220,18 @@ const PostJob = (props) => {
     </div>
 </div> 
 
-          <div>
-            <label for="description" className="block text-gray-700 text-sm mb-2">Description</label>
-            <textarea 
-            name="description"
-            id="description"
-            cols="34"
-            rows="2"
-            value={formValues.description}
-            onChange={(e) =>
-                renderProps.setFieldValue("description", e.target.value)
-              }
-            >
-
-            </textarea>
-        <ErrorMessage name="description" render={msg => <div style={{color:"red"}}>{msg}</div>} />
-
-          </div>
+        
 
         </div>
-        <h6>Add Skills</h6>
-        <FieldArray
-          name="skills"
-          render={(arrayHelpers) => (
-            <div>
-              {formValues.skills && formValues.skills.length > 0 ? (
-                formValues.skills.map((item, index) => (
-                  <div key={index}>
-                    <Field
-                      // component={TextField}
-                      variant="outlined"
-                      fullWidth
-                      label="skill"
-                      placeholder="eg. react, angular"
-                      name={`skills.${index}.skill`}
-                    />
-                   
-                    <button
-                      type="button"
-                      onClick={() => arrayHelpers.remove(index)} // remove an item from the list
-                    >
-                      -
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        arrayHelpers.insert(index, { skill: "" })
-                      } // insert an empty item at a position
-                    >
-                      +
-                    </button>
-                  </div>
-                ))
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => arrayHelpers.push({ skill: "" })}
-                >
-                  {/* show this when user has removed all items from the list */}
-                  Add item
-                </button>
-              )}
-            </div>
-          )}
-        />
+       
         
         <div className="payment mb-6">
           
           <h4 className="mb-2">Payment</h4>
           <p className="bg-gray-200 py-3 text-center text-sm">
               <input
-              className="appearance-none block bg-white text-gray-700 border border-gray-400 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:border-gray-500"
+                  className="border-5 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
+              // className="appearance-none block bg-white text-gray-700 border border-gray-400 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:border-gray-500"
               value={formValues.budget}
               onChange={(e) =>
                   renderProps.setFieldValue("budget", e.target.value)
@@ -235,7 +247,10 @@ const PostJob = (props) => {
         
         <div className='flex justify-center'>
           <button className="bg-slate-900 text-white py-2 px-3 mb-10 rounded text-center"
-           type="submit">
+           type="submit"
+           style={{ transition: "all .15s ease",backgroundColor:"#B6E2E1" }}
+           
+           >
             {isFetching?"Posting ..." :"Post job"}
              </button>
         </div>

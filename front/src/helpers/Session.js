@@ -19,7 +19,7 @@ export const hasToken = () => {
       if(currentTimestamp > tokenExpTime) {
         deleteSession();
       }
-
+console.log("Returning true");
   return true
     } catch (err) {
 

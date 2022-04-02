@@ -2,11 +2,16 @@ import React from "react";
 import * as Yup from 'yup'
 import { Formik, Form,ErrorMessage,FieldArray,Field } from "formik";
 import { useNotifications } from '@mantine/notifications';
+import { FaEye } from 'react-icons/fa';
+import { Loader } from '@mantine/core';
+
 
 // For redux
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as Actions from "./../redux/Register/Actions";
+
+import loginsvg from '../assets/login.png'
 
 import Error from "../components/Error";
 import Success from "../components/Success";
@@ -48,6 +53,12 @@ const LoginValidationSchema = Yup.object().shape({
       resetRegisterStateHandler()
     },1000)
   }
+  const [hidepassword, setHidepassword] = React.useState({
+    password: "",
+    showPassword: false,
+  });
+
+  const {showPassword} = hidepassword
 
   return (
     <>
@@ -64,42 +75,14 @@ const LoginValidationSchema = Yup.object().shape({
           ></div>
           <div className="container mx-auto px-4 h-full">
             <div className="flex content-center items-center justify-center h-full mt-4">
-              <div className="w-full lg:w-4/12 px-4">
-                <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-300 border-0">
-                  {/* <div className="rounded-t mb-0 px-6 py-6">
-                    <div className="text-center mb-3">
-                      <h6 className="text-gray-600 text-sm font-bold">
-                        Sign in with
-                      </h6>
-                    </div>
-                    <div className="btn-wrapper text-center">
-                      <button
-                        className="bg-white active:bg-gray-100 text-gray-800 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs"
-                        type="button"
-                        style={{ transition: "all .15s ease" }}
-                      >
-                        <img
-                          alt="..."
-                          className="w-5 mr-1"
-                          src={require("../assets/github.svg").default}
-                        />
-                        Github
-                      </button>
-                      <button
-                        className="bg-white active:bg-gray-100 text-gray-800 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs"
-                        type="button"
-                        style={{ transition: "all .15s ease" }}
-                      >
-                        <img
-                          alt="..."
-                          className="w-5 mr-1"
-                          src={require("../assets/google.svg").default}
-                        />
-                        Google
-                      </button>
-                    </div>
-                    <hr className="mt-6 border-b-1 border-gray-400" />
-                  </div> */}
+              <div style={{width:"70%"}} className="flex px-4">
+
+              <div style={{backgroundColor:"#E0CFB1",display:"flex",alignItems:"center"}}>
+                  <img  src={loginsvg} alt="" />
+                </div>
+
+                <div className="relative flex flex-col min-w-0 break-words w-full shadow-lg rounded-lg bg-gray-300 border-0">
+                 
                   <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
                     <div className="text-gray-500 text-center mb-3 font-bold">
                       {
@@ -261,16 +244,16 @@ const LoginValidationSchema = Yup.object().shape({
                         />
                       <ErrorMessage name="u_email" render={msg => <div style={{color:"red"}}>{msg}</div>} />
                       </div>
-
-                      <div className="relative w-full mb-3">
-                        <label
+                      <label
                           className="block uppercase text-gray-700 text-xs font-bold mb-2"
                           htmlFor="grid-password"
                         >
                           Password
                         </label>
+                      <div className="relative w-full mb-3 flex">
+                       
                         <input
-                          type="password"
+                          type={showPassword ? "text" : "password"}
                           className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                           placeholder="Password"
                           style={{ transition: "all .15s ease" }}
@@ -279,6 +262,11 @@ const LoginValidationSchema = Yup.object().shape({
                             renderProps.setFieldValue("u_password", e.target.value)
                           }
                         />
+                        <FaEye
+                          onClick={()=>setHidepassword({...hidepassword,showPassword:!showPassword})}
+                            class="eye fa-solid fa-eye-slash"
+                            style={{position:"relative",right:"40"}}
+                            />
                       <ErrorMessage name="u_password" render={msg => <div style={{color:"red"}}>{msg}</div>} />
 
                       </div>
@@ -296,6 +284,8 @@ const LoginValidationSchema = Yup.object().shape({
                   <div key={index}>
                     <Field
                       // component={TextField}
+                      // className="mb-4 mr-2 border"
+                      className="border-5 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                       variant="outlined"
                       fullWidth
                       label="skill"
@@ -304,12 +294,14 @@ const LoginValidationSchema = Yup.object().shape({
                     />
                    
                     <button
+                    className="mr-4"
                       type="button"
                       onClick={() => arrayHelpers.remove(index)} // remove an item from the list
                     >
                       -
                     </button>
                     <button
+                    className="ml-4"
                       type="button"
                       onClick={() =>
                         arrayHelpers.insert(index, { skill: "" })
@@ -357,7 +349,7 @@ const LoginValidationSchema = Yup.object().shape({
                         null
                       }
                       <div className="flex justify-center">
-                        <div className="form-check form-check-inline">
+                        <div className="form-check form-check-inline mr-4">
                           <input 
                           className="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                            type="radio"
@@ -390,9 +382,14 @@ const LoginValidationSchema = Yup.object().shape({
                         <button
                           className="bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full"
                           type="submit"
-                          style={{ transition: "all .15s ease" }}
+                          style={{ transition: "all .15s ease",backgroundColor:"#B6E2E1" }}
                         >
-                          {isFetching?"Registering" : "Sign Up"}
+                          {isFetching?
+                           <Loader
+                           style={{position:"relative",left:"200px"}}
+                           /> 
+                          
+                          : "Sign Up"}
                         </button>
                       </div>
                       </Form>

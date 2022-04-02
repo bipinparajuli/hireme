@@ -87,7 +87,7 @@ useMemo(()=>{
       />
     <div className="px-6 py-4">
       <div className="font-bold text-xl mb-2">{name}</div>
-      <p className="text-gray-700 text-base">
+      <p style={{color:"gray"}} className="text-base">
             {description}
       </p>
       <p className="font-bold text-base">
@@ -106,6 +106,7 @@ useMemo(()=>{
 { user !== undefined ? user.role == "Employee" ?
       <button
         className={`bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150`}
+        style={{ transition: "all .15s ease",backgroundColor:"#B6E2E1" }}
         type="button"
         onClick={() => setShowModal(true)}
         
@@ -120,7 +121,10 @@ useMemo(()=>{
             
             className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
           >
-            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+            <div 
+        style={{ transition: "all .15s ease",backgroundColor:"#B6E2E1" }}
+            
+            className="relative w-auto my-6 mx-auto max-w-3xl">
               {/*content*/}
               <div style={{minWidth:"350px"}}  className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}

@@ -106,11 +106,19 @@ Active
   <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700">
     <div class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{width: `${purposal.ongoing_percentage}%`}}>{purposal.ongoing_percentage}</div>
   </div>:
-    isFetching? <Loader /> :  <button className='bg-slate-900 text-white py-2 px-3 mb-10 rounded text-center' onClick={()=>updatePurposalHandler(purposal._id)}> Accept Purposal</button>
+    isFetching? <Loader /> :  <button
+     className='bg-slate-900 text-white py-2 px-3 mb-10 rounded text-center'
+     style={{ transition: "all .15s ease",backgroundColor:"#B6E2E1" }}
+    onClick={()=>updatePurposalHandler(purposal._id)}> Accept Purposal</button>
 
     }
     {
-    purposal.status == 'completed'? <>Completed</> : purposal.ongoing_percentage == "100" ? <button className='bg-slate-900' onClick={()=>payNowHandler(purposal.employee_no,purposal.job_id,purposal._id)} >Pay Now</button> : null
+    purposal.status == 'completed'? <>Completed</> : purposal.ongoing_percentage == "100" ? <button 
+    className='bg-slate-900' 
+    onClick={()=>payNowHandler(purposal.employee_no,purposal.job_id,purposal._id)} 
+    style={{ transition: "all .15s ease",backgroundColor:"#B6E2E1" }}
+    
+    >Pay Now</button> : null
     }
       </td>
       </tr>

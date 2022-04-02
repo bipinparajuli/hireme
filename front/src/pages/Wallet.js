@@ -105,21 +105,27 @@ console.log(props);
 
   return (
     <>
-    <section style={{height:"100vh"}} id="hero" className="flex h-full items-center">
-          <div className="flex flex-col flex-1 ">
+    <section style={{height:"100vh",background:"linear-gradient(166.57deg, #CBF8FD 16.89%, rgba(255, 242, 218, 0.63) 90.22%)"}} id="hero" className="flex h-full items-center">
+          <div className="flex flex-col items-center flex-1 ">
             
-            <p className="text-neutral-grayish-blue text-xs lg:text-base leading-5 mb-7">
-              Available Balance
-            </p>
-            <h1 className="text-4xl lg:text-5xl text-primary-dark-blue pb-5">
-              Next generation digital banking
+          <h1 className="text-2xl lg:text-3xl text-primary-dark-blue pb-5">
+              Your Personal Wallet
             </h1>
+            <p 
+            style={{color:"rgba(0, 0, 0, 0.73)"}}
+            className="text-neutral-grayish-blue text-xs lg:text-base leading-5 mb-7">
+                Get Next generation digital banking services and pay easily to employee
+            </p>
+            
   
 
           </div>
 
-          <div className="flex-1" >
-          <div class="max-w-sm bg-gradient-to-r from-indigo-500 rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+          <div className="flex-1"          
+          >
+          <div 
+          style={{backgroundColor:"#E0CFB1"}}
+          class="max-w-sm bg-gradient-to-r from-indigo-500 rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
     <a href="#">
         <img class="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
     </a>
@@ -146,7 +152,13 @@ console.log(props);
       {/* <Group position="center"> */}
         {/* <Button >Open Modal</Button> */}
       {/* </Group> */}
-        <a  href="#" onClick={() => setOpened(true)} class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+        <a  href="#"
+         onClick={() => setOpened(true)}
+        class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        style={{ transition: "all .15s ease",backgroundColor:"#B6E2E1" }}
+        
+        >
+        
             Pay now
             <svg class="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
         </a>
