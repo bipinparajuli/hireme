@@ -132,12 +132,12 @@ exports.updateEmployee = (req,res) => {
 }
 
 exports.updateEmployerCoin = (req,res) => {
-
+    req.body.coin = 10
     console.log("COIN",req.body);
 
     
     Employer.update(
-        { coin: req.body.coin },
+        { coin: req.body.coin + parseInt(req.profile.coin) },
         { where: { _id: req.profile._id } },
     ).then(data=>{
         console.log("Successfully updated");
