@@ -162,7 +162,7 @@ const LoginValidationSchema = Yup.object().shape({
                           <FaEye
                           onClick={()=>setHidepassword({...hidepassword,showPassword:!showPassword})}
                             class="eye fa-solid fa-eye-slash"
-                            style={{position:"relative",right:"40"}}
+                            style={{position:"relative",right:"40",top:"15"}}
                             />
                         </div>
 

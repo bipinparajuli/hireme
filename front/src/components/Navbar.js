@@ -73,13 +73,13 @@ function Nav(props) {
                   View Application
                 </Link>:null:null
 }{
-  isAuthenticated?
+  user !== undefined?user.role =="Employee" | user.role =="Employer"?
                   <Link
                     to="/wallet"
                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Wallet
-                  </Link> : null}
+                  </Link> : null:null}
 
                  { isAuthenticated? 
                   <Link
