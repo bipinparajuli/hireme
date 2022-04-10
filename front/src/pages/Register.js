@@ -62,8 +62,8 @@ const LoginValidationSchema = Yup.object().shape({
 
   return (
     <>
-      {/* <main> */}
-        <section className="absolute w-full">
+      {/* <main > */}
+        <section className="mb-6 w-full">
           <div
             className="absolute top-0 w-full h-full bg-gray-900"
             style={{

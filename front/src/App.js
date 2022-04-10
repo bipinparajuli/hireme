@@ -18,6 +18,7 @@ import Profile from './pages/Profile';
 import Wallet from './pages/Wallet';
 import Applications from './pages/Applications';
 import Success from './components/Success';
+import ResetPasswordEmail from './pages/ResetPasswordEmail';
 
 function App() {
   return (
@@ -28,7 +29,8 @@ function App() {
     <Routes>
       <Route path="/" element={<JobListing />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/resetpassword" element={<ResetPassword />} />
+      <Route path="/reset-password/:id" element={<ResetPassword />} />
+      <Route path="/resetpassword" element={<ResetPasswordEmail />} />
 
       <Route
           path="/postjob"

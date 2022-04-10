@@ -1,4 +1,6 @@
 //SEND VERIFICATION EMAIL
+const nodemailer = require("nodemailer");
+
 const emailService = require("../utils/nodemailer");
 
 
@@ -69,5 +71,19 @@ exports.sendVerificationEmail =  async (email,baseurl,id,u_role) => {
                 err
             );
             res.sendStatus(500);
+        }
+    }
+
+  
+    exports.sendMail = async mailOptions => {
+        console.log(mailOptions);
+        try {
+            const { messageId } = await emailService.sendMail({
+                from: process.env.EMAIL_USERNAME,
+                ...mailOptions,
+            })
+            console.info(`Mail sent: ${messageId}`)
+        } catch (error) {
+            console.error(error)
         }
     }

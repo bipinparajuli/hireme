@@ -9,6 +9,8 @@ import Jobs from "./Jobs/Reducer"
 import Purposal from "./Purposal/Reducer"
 import Wallet from "./Wallet/Reducer"
 import Employer from "./Employer/Reducer"
+import Reset from "./ResetPassword/Reducer"
+
 
 
 
@@ -26,6 +28,7 @@ export default {
   Register,
   Purposal,
   Wallet,
-  Employer
+  Employer,
+  Reset
   // ChangePassword,
 }

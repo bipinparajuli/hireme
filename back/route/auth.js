@@ -1,7 +1,7 @@
 const express = require("express");
 
 const {check} = require("express-validator");
-const { signup,signin,changePassword } = require("../controller/auth");
+const { signup,signin,changePassword, requestPasswordReset } = require("../controller/auth");
 const { isSignedIn, isAuthenticate,verifyUserEmail } = require("../controller/auth");
 const { getUserById, getEmployeeById, getEmployerById } = require("../controller/user");
 
@@ -33,7 +33,9 @@ signin
 
 //reset password
 
-router.post("/change-password/:uId",isSignedIn,changePassword)
+
+router.post("/change-password/:uid",isSignedIn,changePassword)
+router.post('/request-password-reset',requestPasswordReset)
 
 router.get("/verification/employee-account/:employeeId",verifyUserEmail);
 router.get("/verification/employer-account/:employerId",verifyUserEmail);

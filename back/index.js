@@ -46,7 +46,7 @@ app.use('/api',braintreeRoutes)
 
 
 app.listen(8001,()=>{
-    console.log("App is running")
+    console.log("App is running at port 8001")
 })
 
 

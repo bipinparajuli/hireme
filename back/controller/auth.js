@@ -1,15 +1,16 @@
 const Employee = require("../model/employee")
 const Employer = require("../model/employer")
+const createHttpError = require('http-errors')
 
 const bcrypt = require("bcrypt")
 
 const {validationResult} = require('express-validator');
-
+const { v4: uuidv4 } = require('uuid');
 const jwt = require("jsonwebtoken")
 
 const expressJWT = require("express-jwt");
 const { matchPassword } = require("../utils/utils");
-const { sendVerificationEmail } = require("../utils/commonFunction");
+const { sendVerificationEmail, sendMail } = require("../utils/commonFunction");
 
 
 exports.signup = async (req,res) => {
@@ -134,7 +135,7 @@ exports.signin = async (req,res)=>{
                                return res.json({success:false,status:403,error:"Password don't match",messege:["Password don't match"]})
                             }
             
-                            const token = jwt.sign({name:user.u_name},process.env.SECRET)
+                            const token = jwt.sign({u_email:user.u_email},process.env.SECRET)
                             
                             res.cookie("token",token)
             
@@ -211,17 +212,35 @@ exports.isAuthenticate = (req,res,next) => {
 exports.changePassword = async (req,res) => {
 
     const {password,newpassword} =  req.body
-    console.log(req.profile)
+    let token = req.headers.authorization.split(" ")[1];
 
-    const result = await matchPassword(password,req.profile.u_password) 
+    let data = jwt.verify(token,process.env.SECRET)
+
+    console.log(data)
+    let user;
+    // check whether user with provided email exists or not
+    try{
+         user = await Employer.findOne({where:{u_email:data.u_email}})
+        console.log("USER,",user);
+    }catch(err){
+        console.log(err);
+    }
+    if(!user){
+     user = await Employee.findOne({where:{u_email:data.u_email}})
+
+    }
+    if (!user) return next(createHttpError(404, 'User not found'))
+
+
+    const result = await matchPassword(password,user.u_password) 
 
     console.log(result);
     if(result){
         const hash = await bcrypt.hash(newpassword,17)
 
-    if(req.profile.u_role == "Employee"){
+    if(user.u_role == "Employee"){
         Employee.update({u_password:hash},
-            {where:{_id:req.profile._id}}
+            {where:{_id:user._id}}
             
             )
         .then(data=>{
@@ -233,7 +252,7 @@ exports.changePassword = async (req,res) => {
         })
     }else{
         Employer.update({u_password:hash},
-            {where:{_id:req.profile._id}}
+            {where:{_id:user._id}}
             
             )
         .then(data=>{
@@ -330,4 +349,45 @@ exports.verifyUserEmail=  async (req, res) => {
         );
         res.sendStatus(500);
     }
+}
+
+
+exports.requestPasswordReset = async (req, res, next) => {
+    const { u_email } = req.body
+    let user;
+    // check whether user with provided email exists or not
+    try{
+         user = await Employer.findOne({where:{u_email:u_email}})
+        console.log("USER,",user);
+    }catch(err){
+        console.log(err);
+    }
+    if(!user){
+     user = await Employee.findOne({where:{u_email:u_email}})
+
+    }
+    if (!user) return next(createHttpError(404, 'User not found'))
+    // if the user exists create a password reset token
+    // set the token to expire in 10 minutes
+    // send the url to reset password to the user's email
+    const token = await uuidv4();
+    console.log(token,user.u_email);
+    try {
+        await sendMail({
+            to: user.u_email,
+            subject: 'Reset your Password',
+            text: `
+            Please send a patch request to following url to reset your password
+            http://localhost:3000/reset-password/${token}
+        `,
+        })
+    } catch (error) {
+        return next(createHttpError(500, error.message))
+    }
+    res.status(200).json({
+        success: true,
+        data: {
+            message: 'Email sent to reset password',
+        },
+    })
 }
