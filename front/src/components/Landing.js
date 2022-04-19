@@ -7,7 +7,7 @@ const Landing = () => {
   <>
     <div className="pt-24 flex items-center" style={{height:"500px",
     background:"linear-gradient(105.8deg, rgba(255, 243, 229, 0.64) 0%, rgba(182, 226, 225, 0.84) 100%)"}}>
-    <div className="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
+    <div className="container px-3 mx-auto flex flex-col md:flex-row items-center">
       <div className="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left" style={{marginLeft:"85px"}} >
         <p className="uppercase tracking-loose w-full">What business are you?</p>
         <h1 className="my-4 text-4xl font-bold leading-tight">
@@ -30,9 +30,9 @@ const Landing = () => {
         </button>
       </div>
       </div>
-      {/* <div className="w-full md:w-3/5 py-6 text-center">
+      <div className="w-full md:w-3/5 py-6 text-center">
         <img className="w-full md:w-4/5 z-50" src={Hero} />
-      </div> */}
+      </div>
     </div>
   </div>
 

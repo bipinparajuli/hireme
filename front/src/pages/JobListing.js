@@ -9,6 +9,16 @@ import Landing from '../components/Landing';
 const JobListing = (props) => {
 
   const [popular,setPopular] = useState("all")
+  const [state,setState] = useState({
+    currentPage: 1, //Holds the value for the current page
+    postsPerPage: 1 //Holds the value for the number of posts per page. You can adjust to suit your needs
+
+  })
+
+  const {currentPage,postsPerPage} = state
+
+  
+
 
   const {jobs} = props;
 
@@ -20,7 +30,23 @@ const JobListing = (props) => {
 
   },[])
 
+  //Get currentPosts
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = jobs.slice(indexOfFirstPost, indexOfLastPost);
+  console.log(jobs,currentPosts);
 
+  //Implement page numbers
+  const pageNumbers = []
+
+  for (let i = 1; i <= Math.ceil(jobs.length / postsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  //Set current page
+  const setPage = (pageNum) => {
+    setState({currentPage: pageNum})
+  }
 
   return (
     <>
@@ -56,7 +82,7 @@ style={{display:"flex",justifyContent:"center",gap:"10px",marginTop:"5%"}}
 
     <div class="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5">
     {
-    !jobs ? <h1>loading . . . </h1> : jobs.length==0?<h1>No Jobs found !!</h1> : jobs.map(data=>{
+    !jobs ? <h1>loading . . . </h1> : jobs.length==0?<h1>No Jobs found !!</h1> : currentPosts.map(data=>{
       if(popular.length > 0 && JSON.parse(data.skills)[0].skill == popular){
 
         return(
@@ -73,6 +99,7 @@ style={{display:"flex",justifyContent:"center",gap:"10px",marginTop:"5%"}}
       }
       else if(popular == "all"){
         return(
+          <>
           <Card 
             key={data._id}
             name={data.name}
@@ -81,11 +108,23 @@ style={{display:"flex",justifyContent:"center",gap:"10px",marginTop:"5%"}}
             budget={data.budget}
             jId={data._id}
           />
+ 
+          </>
+
         )
       }
         
       })
     }
+    {/* <div className="w-full flex justify-around">
+          {
+            pageNumbers.map((pageNum, index) => (
+              <span key={index} className={pageNum === currentPage ? "cursor-pointer flex items-center justify-center w-12 h-12 border-2 rounded-full bg-blue-500 text-white" : "cursor-pointer flex items-center justify-center w-12 h-12 border-2 rounded-full"} onClick={() => {setPage(pageNum)}}>
+                {pageNum}
+              </span>
+            ))
+          }
+        </div> */}
     </div>
     </div>
 

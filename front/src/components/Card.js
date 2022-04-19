@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import ImageHelper from '../helpers/ImageHelper'
 import { getUserData } from '../helpers/Session'
 import { useNotifications } from '@mantine/notifications';
+import { Badge } from '@mantine/core';
+
 
 //  For redux
 import { bindActionCreators } from "redux";
@@ -90,7 +92,7 @@ useMemo(()=>{
       <p style={{color:"gray"}} className="text-base">
             {description}
       </p>
-      <p className="font-bold text-base">
+      <p style={{marginLeft:"70%",marginTop:"10%"}} className="font-bold text-base">
           Budget: <strong className='text-gray-700 text-base'>{budget}</strong>
       </p>
 
@@ -98,15 +100,20 @@ useMemo(()=>{
     <div className="px-6 pt-4 pb-2">
       {
       JSON.parse(skills).map(skill=>(
-          <span key={skill} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{skill.skill}</span>
-        ))
+          // <span key={skill} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{skill.skill}</span>
+          <Badge 
+          key={skill}
+          variant="gradient" gradient={{ from: 'teal', to: 'blue', deg: 60 }}>
+            {skill.skill}
+            </Badge>
+       ))
 }
 
      
 { user !== undefined ? user.role == "Employee" ?
       <button
         className={`bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150`}
-        style={{ transition: "all .15s ease",backgroundColor:"#B6E2E1" }}
+        style={{ transition: "all .15s ease",backgroundColor:"#B6E2E1",marginLeft:"12px" }}
         type="button"
         onClick={() => setShowModal(true)}
         

@@ -1,4 +1,5 @@
 import React from "react"
+import { Link } from "react-router-dom"
 
 const FooterSmall = () =>(
   <footer className="text-center text-white bottom-0 w-full" style={{backgroundColor: "#f1f1f1"}}>
@@ -111,7 +112,7 @@ const FooterSmall = () =>(
 
   <div className="text-center text-gray-700 p-4" style={{backgroundColor: "rgba(0, 0, 0, 0.2)"}}>
     © 2022 Copyright:
-    <a className="text-gray-800" href="https://tailwind-elements.com/">Hire me</a>
+    <Link className="text-gray-800" to='/about'>Hire me</Link>
   </div>
 </footer>
 )

@@ -60,6 +60,8 @@ const Purposal = ({getPurposalByJobId,pruposalbyjobid,updatePurposalStatus,hasSu
 console.log(pruposalbyjobid);
     return (
         <>
+        <div style={{height:"100vh"}}>
+
     <div>    
       <h2 className='text-center my-10'>Popular Jobs for you</h2>
     </div>
@@ -99,21 +101,24 @@ console.log(pruposalbyjobid);
       </td>
 
       <td>
-      {purposal.status == 'active'? purposal.ongoing_percentage == null ?
+      {
+      purposal.status == 'active'? purposal.ongoing_percentage == null ?
       <Badge>
-Active
+          Active
       </Badge>:
   <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700">
     <div class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{width: `${purposal.ongoing_percentage}%`}}>{purposal.ongoing_percentage}</div>
   </div>:
-    isFetching? <Loader /> :  <button
+    isFetching? <Loader /> : purposal.status == 'completed'?null: <button
      className='bg-slate-900 text-white py-2 px-3 mb-10 rounded text-center'
      style={{ transition: "all .15s ease",backgroundColor:"#B6E2E1" }}
     onClick={()=>updatePurposalHandler(purposal._id)}> Accept Purposal</button>
 
     }
     {
-    purposal.status == 'completed'? <>Completed</> : purposal.ongoing_percentage == "100" ? <button 
+    purposal.status == 'completed'? <Badge>
+    Complete
+</Badge> : purposal.ongoing_percentage == "100" ? <button 
     className='bg-slate-900' 
     onClick={()=>payNowHandler(purposal.employee_no,purposal.job_id,purposal._id)} 
     style={{ transition: "all .15s ease",backgroundColor:"#B6E2E1" }}
@@ -157,6 +162,7 @@ Active
         </tbody>
       </Table>
     </ScrollArea>
+    </div>
    
         </>
 

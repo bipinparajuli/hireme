@@ -79,7 +79,7 @@ props.getPurposalByEmployeeId(user._id)
             <th>Job title</th>
             <th>Purposal description</th>
             <th>Status</th>
-            <th>Phone</th>
+            <th></th>
             <th />
           </tr>
         </thead>
@@ -103,9 +103,9 @@ props.getPurposalByEmployeeId(user._id)
 <td>
 {data.status?
             
-            <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-indigo-100 bg-indigo-700 rounded">{data.status}</span>
+            <Badge>{data.status}</Badge>
          : 
-         <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-indigo-100 bg-indigo-700 rounded">Pending</span>
+         <Badge>Pending</Badge>
 
           }
 </td>

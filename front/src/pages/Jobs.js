@@ -108,7 +108,14 @@ const Jobs = (props) => {
               </p>
               <p className="text-gray-700 text-base">
                   <span className='font-bold'>No. of Purposal: </span>  {data.no_of_purposal}
+                  <button  
+              style={{ transition: "all .15s ease",backgroundColor:"#B6E2E1" }}
+              class="bg-gray-300 ml-2 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+              >
+
                   <Link className='ml-2' to={`/purposal/${data._id}`}>View All</Link>
+                  </button>
+
               </p>
             </div>
             <div className="px-6 pt-4 pb-2">

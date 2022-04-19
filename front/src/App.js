@@ -19,6 +19,8 @@ import Wallet from './pages/Wallet';
 import Applications from './pages/Applications';
 import Success from './components/Success';
 import ResetPasswordEmail from './pages/ResetPasswordEmail';
+import About from './pages/About';
+
 
 function App() {
   return (
@@ -29,6 +31,7 @@ function App() {
     <Routes>
       <Route path="/" element={<JobListing />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/about" element={<About />} />
       <Route path="/reset-password/:id" element={<ResetPassword />} />
       <Route path="/resetpassword" element={<ResetPasswordEmail />} />
 
@@ -49,6 +52,7 @@ function App() {
             // </Employer>
           }
         />
+        
         <Route
           path="/projects"
           element={
