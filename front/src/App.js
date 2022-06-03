@@ -10,6 +10,14 @@ import JobListing from './pages/JobListing';
 import Register from './pages/Register'
 import Employee from './routes/Employee';
 import Employer from './routes/Employer';
+
+import AdminRoute from './routes/Admin';
+import Admin from './components/Admin/Admin';
+import EmployerC from './components/Admin/Employer';
+import EmployeeC from './components/Admin/Employee';
+
+
+
 import PostJob from './pages/PostJob';
 import Jobs from './pages/Jobs';
 import ResetPassword from './pages/ResetPassword';
@@ -43,6 +51,13 @@ function App() {
             </Employer>
           }
         />
+        <Route path="/admin" element={<AdminRoute>
+              <Admin />
+            </AdminRoute> }>
+              {/* <Route path="dashboard" element={<Dashboard />} /> */}
+              <Route path="employer" element={<EmployerC />} />
+              <Route path="employee" element={<EmployeeC />} />
+            </Route>
 
         <Route
           path="/wallet"

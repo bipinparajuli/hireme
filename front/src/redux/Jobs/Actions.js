@@ -159,6 +159,34 @@ import {
       });
   }
 
+  //search
+  export const searchJobs = (payload) => dispatch => {
+    console.log(payload);
+    api.post('searchjob', { data: payload })
+      .then((result) => {
+        console.log(result)
+        if(result.success) {
+            // id=result.data._id
+          dispatch({
+            type: JOBS_SUCCESS,
+            data: result.data
+          })
+  
+        } else {
+          
+          dispatch({
+            type: JOBS_FAILURE,
+            data: {
+              errorMessage: result.msg,
+            }
+          })
+        }
+      })
+      .catch((err) => {
+        console.log('err', err);
+      });
+  }
+
   export const resetStateHandler = () => dispatch => {
     dispatch({
       type:RESET_JOBS_PARAMS,

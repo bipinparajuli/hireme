@@ -4,7 +4,7 @@ const { isSignedIn,isAdmin,isAuthenticate} = require('../controller/auth');
 
 const router = express.Router();
 
-const {getUserById,getAllUser,createUser,updateUser,deleteUser,getSingleUserByid,getUserByName, getEmployeeById, updateEmployee, getEmployerById} = require("../controller/user")
+const {deleteEmployee,deleteEmployer,getUserById,getAllUser,createUser,updateUser,deleteUser,getSingleUserByid,getUserByName, getEmployeeById, updateEmployee, getEmployerById, getEmployee, getEmployer} = require("../controller/user")
 
 
 router.param("employeeid",getEmployeeById);
@@ -48,6 +48,10 @@ router.get("/getEmployer/:employerid",isSignedIn,(req,res)=>{
 
 });
 
+router.get("/getemployee",getEmployee)
+router.get("/getemployer",getEmployer)
+
+
 router.put("/updateEmployee/:employeeid",isSignedIn,updateEmployee)
 
 
@@ -55,6 +59,8 @@ router.put("/updateEmployee/:employeeid",isSignedIn,updateEmployee)
 
 // router.put("/user/updateuser/:username/:userid",isSignedIn,isAuthenticate,isAdmin,updateUser)
 
-// router.delete("/user/deleteuser/:username/:userid",isSignedIn,isAuthenticate,isAdmin,deleteUser)
+router.delete("/deleteemployee/:employeeid",deleteEmployee)
+router.delete("/deleteemployer/:employerid",deleteEmployer)
+
 
 module.exports = router

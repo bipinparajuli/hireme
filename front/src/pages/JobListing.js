@@ -2,16 +2,17 @@ import React,{useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import { Badge } from '@mantine/core';
+import { Pagination } from '@mantine/core';
 import * as Actions from "./../redux/Jobs/Actions";
 import Card  from '../components/Card';
 import Landing from '../components/Landing';
 
 const JobListing = (props) => {
-
+  // const [activePage, setPage] = useState(1)
   const [popular,setPopular] = useState("all")
   const [state,setState] = useState({
     currentPage: 1, //Holds the value for the current page
-    postsPerPage: 1 //Holds the value for the number of posts per page. You can adjust to suit your needs
+    postsPerPage: 2 //Holds the value for the number of posts per page. You can adjust to suit your needs
 
   })
 
@@ -35,6 +36,8 @@ const JobListing = (props) => {
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = jobs.slice(indexOfFirstPost, indexOfLastPost);
   console.log(jobs,currentPosts);
+  console.log(indexOfFirstPost,indexOfLastPost,currentPage,postsPerPage);
+
 
   //Implement page numbers
   const pageNumbers = []
@@ -43,9 +46,10 @@ const JobListing = (props) => {
     pageNumbers.push(i);
   }
 
-  //Set current page
+  // Set current page
   const setPage = (pageNum) => {
-    setState({currentPage: pageNum})
+    console.log(pageNum);
+    setState({...state,currentPage: pageNum})
   }
 
   return (
@@ -116,16 +120,26 @@ style={{display:"flex",justifyContent:"center",gap:"10px",marginTop:"5%"}}
         
       })
     }
-    {/* <div className="w-full flex justify-around">
+    
+        {/* <Pagination page={activePage} onChange={setPage} total={10} /> */}
+    </div>
+    <div className="w-full flex justify-center">
           {
             pageNumbers.map((pageNum, index) => (
-              <span key={index} className={pageNum === currentPage ? "cursor-pointer flex items-center justify-center w-12 h-12 border-2 rounded-full bg-blue-500 text-white" : "cursor-pointer flex items-center justify-center w-12 h-12 border-2 rounded-full"} onClick={() => {setPage(pageNum)}}>
+              <span key={index}
+               className={pageNum === currentPage
+                ? 
+                "cursor-pointer flex items-center mr-2 justify-center w-12 h-12 border-2 rounded-full bg-blue-500 text-white"
+                 : 
+                 "cursor-pointer flex items-center justify-center w-12 h-12 border-2 rounded-full"
+                 } 
+                 onClick={() => {setPage(pageNum)}}
+                 >
                 {pageNum}
               </span>
             ))
           }
-        </div> */}
-    </div>
+        </div>
     </div>
 
   </>

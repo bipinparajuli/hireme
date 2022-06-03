@@ -147,3 +147,61 @@ exports.updateEmployerCoin = (req,res) => {
         console.log(err);
     })
 }
+
+    //find all employee 
+exports.getEmployee = (req,res) => {
+    Employee.findAll().then(data=>{
+      res.status(200).json({success:true,status:200,data:data,messege:["API is working"]})
+  
+    }).catch(err=>{
+      console.log(err)
+      res.status(402).json({success:false,status:402,error:"No employee present in db",messege:["API is not working"]})
+  
+    })
+  }
+
+      //find all employer 
+exports.getEmployer = (req,res) => {
+    Employer.findAll().then(data=>{
+      res.status(200).json({success:true,status:200,data:data,messege:["API is working"]})
+  
+    }).catch(err=>{
+      console.log(err)
+      res.status(402).json({success:false,status:402,error:"No employer present in db",messege:["API is not working"]})
+  
+    })
+  }
+
+  //delete Employee by empid
+exports.deleteEmployee = (req,res) => {
+
+    
+      Employee.destroy({where:{_id:req.params.employeeid}})
+      .then(data=>{
+          res.status(200).json({success:true,status:200,data:data,messege:["Deleted successfully"],})
+      })
+      .catch(
+          err =>   
+                       res.status(400).json({success:false,status:400,error: err,messege:["Failed in deleting job"]})
+    
+      )
+   
+  
+  }
+
+    //delete Employee by empid
+exports.deleteEmployer = (req,res) => {
+
+    
+    Employer.destroy({where:{_id:req.params.employerid}})
+    .then(data=>{
+        res.status(200).json({success:true,status:200,data:data,messege:["Deleted successfully"],})
+    })
+    .catch(
+        err =>   
+                     res.status(400).json({success:false,status:400,error: err,messege:["Failed in deleting job"]})
+  
+    )
+ 
+
+}

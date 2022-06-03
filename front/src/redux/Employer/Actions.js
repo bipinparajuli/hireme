@@ -2,7 +2,15 @@ import Api from '../../helpers/ApiHelpers';
 //   import {getSession} from '../../helpers/session'
 import {
   GETEMPLOYERBYID_FAILURE,
-  GETEMPLOYERBYID_SUCCESS
+  GETEMPLOYERBYID_SUCCESS,
+  GETEMPLOYEE_FAILURE,
+  GETEMPLOYEE_SUCCESS,
+  GETEMPLOYER_FAILURE,
+  GETEMPLOYER_SUCCESS,
+  DELETEEMPLOYEE_FAILURE,
+  DELETEEMPLOYEE_SUCCESS,
+  DELETEEMPLOYER_FAILURE,
+  DELETEEMPLOYER_SUCCESS
 
 } from './Constants'
   
@@ -75,4 +83,141 @@ import {
       });
   }
 
+  export const getEmployer = (payload) => dispatch => {
+    api.get(`getemployer`, { data: payload })
+      .then((result) => {
+        if(result.success) {
+            // id=result.data._id
+          dispatch({
+            type: GETEMPLOYER_SUCCESS,
+            data: result.data
+          })
   
+        } else {
+          
+          dispatch({
+            type: GETEMPLOYER_FAILURE,
+            data: {
+              errorMessage: result.error,
+            }
+          })
+        }
+      })
+      .catch((err) => {
+        console.log('err', err);
+        dispatch({
+          type: GETEMPLOYER_FAILURE,
+          data: {
+            errorMessage: err.error,
+          }
+        })
+      });
+  }
+
+
+  export const getEmployee = (payload) => dispatch => {
+    api.get(`getemployee`, { data: payload })
+      .then((result) => {
+        if(result.success) {
+            // id=result.data._id
+          dispatch({
+            type: GETEMPLOYEE_SUCCESS,
+            data: result.data
+          })
+  
+        } else {
+          
+          dispatch({
+            type: GETEMPLOYEE_FAILURE,
+            data: {
+              errorMessage: result.error,
+            }
+          })
+        }
+      })
+      .catch((err) => {
+        console.log('err', err);
+        dispatch({
+          type: GETEMPLOYEE_FAILURE,
+          data: {
+            errorMessage: err.error,
+          }
+        })
+      });
+  }
+
+  //deleted emplyee 
+  export const deleteEmployee = (empid) => dispatch => {
+    // console.log(payload);
+  //   dispatch({
+  //     type:JOBS_REQUEST,
+  //     data:{}
+  // })
+    api.delete(`/deleteemployee/${empid}`,)
+      .then((result) => {
+        console.log(result)
+        if(result.success) {
+            // id=result.data._id
+          dispatch({
+            type: DELETEEMPLOYEE_SUCCESS,
+            data: result.data
+          })
+  
+        } else {
+          
+          dispatch({
+            type: DELETEEMPLOYEE_FAILURE,
+            data: {
+              errorMessage: result.msg,
+            }
+          })
+        }
+      })
+      .catch((err) => {
+        console.log('err', err);
+        dispatch({
+          type: DELETEEMPLOYEE_FAILURE,
+          data: {
+            errorMessage: err.msg,
+          }
+        })
+      });
+  }
+
+    //deleted emplyee 
+  export const deleteEmployer = (empid) => dispatch => {
+      // console.log(payload);
+    //   dispatch({
+    //     type:JOBS_REQUEST,
+    //     data:{}
+    // })
+      api.delete(`/deleteemployer/${empid}`,)
+        .then((result) => {
+          console.log(result)
+          if(result.success) {
+              // id=result.data._id
+            dispatch({
+              type: DELETEEMPLOYER_SUCCESS,
+              data: result.data
+            })
+    
+          } else {
+            
+            dispatch({
+              type: DELETEEMPLOYER_FAILURE,
+              data: {
+                errorMessage: result.msg,
+              }
+            })
+          }
+        })
+        .catch((err) => {
+          console.log('err', err);
+          dispatch({
+            type: DELETEEMPLOYER_FAILURE,
+            data: {
+              errorMessage: err.msg,
+            }
+          })
+        });
+    }

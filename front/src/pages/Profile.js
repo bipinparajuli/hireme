@@ -118,6 +118,11 @@ const Profile = ({getEmployeeById,employee,handleRemarksRequestAction}) => {
                     <button
                         class="block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">Show
                         Full Information</button>
+
+                        <button
+                        class="block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">Show
+                        Report Profile
+                        </button>
                 </div>
                 {/* <!-- End of about section --> */}
 

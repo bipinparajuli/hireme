@@ -2,7 +2,8 @@ const Jobs = require("../model/jobs")
 const formidable = require("formidable")
 const fs = require("fs");
 const Employer = require("../model/employer");
-
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 //finding job by id through parameter
 exports.findJobById = (req,res,next,id) => {
@@ -176,4 +177,24 @@ exports.updateJob = (req,res) => {
     }).catch(err=>{
       console.log("error",err);
     })  
+}
+
+//search job
+
+exports.searchJob = async (req,res) => {
+  Jobs.findAll({
+    where: {
+        name: {[Op.substring]: `%${req.body.searchString}%`}
+    },
+}).then(data=>{
+  console.log(req.body);
+  res.status(200).json({success:true,status:200,data:data,messege:["API is working"]})
+
+}).catch(err=>{
+  console.log(err)
+  res.status(402).json({success:false,status:402,error:"No jobs present in db",messege:["API is not working"]})
+
+})
+
+
 }

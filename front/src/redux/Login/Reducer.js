@@ -9,7 +9,7 @@ import {
   
   const initialState = {
     isFetching: false,
-    isAuthenticated: hasToken(),
+    isAuthenticated: hasToken(),//fase
     hasError: false,
     hasSuccess:false,
     errorMessage: '',

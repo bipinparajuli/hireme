@@ -1,8 +1,14 @@
 import React from 'react'
 import Hero from '../assets/hero.png'
+import * as Actions from "./../redux/Jobs/Actions";
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+const Landing = (props) => {
+  console.log(props);
+  function changeHandler(value){
+props.searchJobs({searchString:value})
+  }
 
-const Landing = () => {
-    
   return (
   <>
     <div className="pt-24 flex items-center" style={{height:"500px",
@@ -15,7 +21,11 @@ const Landing = () => {
         </h1>
         <div class="pt-2 relative text-gray-600">
         <input class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
-          type="search" name="search" placeholder="Search" />
+          type="search"
+          name="search"
+          placeholder="Search"
+          onChange={(e)=>changeHandler(e.target.value)}
+          />
         <button type="submit" class="absolute right-0 top-0 mt-5 mr-4">
           <svg class="text-gray-600 h-4 w-4 fill-current"
             // xmlns="http://www.w3.org/2000/svg"
@@ -64,4 +74,14 @@ const Landing = () => {
   )
 }
 
-export default Landing
+const mapStateToProps = (state) => ({
+  // ...state.Jobs,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    ...bindActionCreators({ ...Actions }, dispatch),
+  };
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(Landing);
