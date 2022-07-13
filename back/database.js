@@ -8,5 +8,5 @@ const sequelize = new Sequelize("test","root","",{
     database:"test",
     password: ''
 })
-
+console.log("test");
 module.exports = sequelize
